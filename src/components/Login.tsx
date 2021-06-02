@@ -1,5 +1,7 @@
 import { Button, Card, CardContent, Divider, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { LogIn } from "../models/logIn";
 
 
@@ -20,13 +22,16 @@ const useStyles = makeStyles({
 });
 
 
-function Login({ setLogin }: any) {
+function Login(props: any) {
 
     const classes = useStyles();
     const [values, setValues] = useState({
         email: "",
         password: "",
     } as LogIn);
+
+    const history = useHistory();
+    const {authDispatch} = useAuth();
 
     const [errors, setErrors] = useState({} as any);
 
@@ -59,10 +64,13 @@ function Login({ setLogin }: any) {
 
 
     const login = () => {
-        if (values.email && values.password &&
-            Object.values(errors).every((x) => x === "")) {
-            setLogin(true);
-        }
+        //if (values.email && values.password &&
+    //        Object.values(errors).every((x) => x === "")) {
+           
+            authDispatch({ type: 'login'})
+            history.push("/");
+            
+     //   }
     };
 
     return (
@@ -117,10 +125,6 @@ function Login({ setLogin }: any) {
                             </Button>
                         </Grid>
                     </Grid>
-
-
-
-
 
                 </div>
 

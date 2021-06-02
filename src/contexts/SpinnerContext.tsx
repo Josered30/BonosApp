@@ -7,7 +7,7 @@ type State = { state: boolean };
 type SpinnerProviderProps = { children: React.ReactNode };
 
 
-const SpinnerContext = createContext<{ state: State, dispatch: Dispatch } | undefined>(undefined);
+const SpinnerContext = createContext<{ spinnerState: State, spinnerDispatcher: Dispatch } | undefined>(undefined);
 
 function spinnerReducer(state: State, action: Action) {
     switch (action.type) {
@@ -25,7 +25,11 @@ function SpinnerProvider({ children }: SpinnerProviderProps) {
     const [state, dispatch] = useReducer(spinnerReducer, { state: false });
     // NOTE: you *might* need to memoize this value
     // Learn more in http://kcd.im/optimize-context
-    const value = { state, dispatch };
+    const value = {
+        spinnerState: state,
+        spinnerDispatcher: dispatch
+    };
+
     return <SpinnerContext.Provider value={value}>{children}</SpinnerContext.Provider>;
 }
 

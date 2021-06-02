@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
+import { useAuth } from '../contexts/AuthContext';
 
 
 
@@ -23,10 +24,6 @@ const headersData = [
         label: "Configuracion",
         href: "/configuracion",
     },
-    {
-        label: "Salir",
-        href: "/logout"
-    }
 ];
 
 const useStyles = makeStyles(() => ({
@@ -70,10 +67,11 @@ function AppNavBar(props: any) {
     const [state, setState] = useState({
         mobileView: false,
         drawerOpen: false,
-      });
-    
+    });
+
     const { mobileView, drawerOpen } = state;
 
+    const { authDispatch } = useAuth();
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -99,7 +97,7 @@ function AppNavBar(props: any) {
     );
 
     const getMenuButtons = () => {
-        return headersData.map(({ label, href }) => {
+        let buttons = headersData.map(({ label, href }) => {
             return (
                 <Button
                     {...{
@@ -114,6 +112,13 @@ function AppNavBar(props: any) {
                 </Button>
             );
         });
+
+        buttons.push(
+            <Button className={classes.menuButton} onClick={() => authDispatch({ type: "logout" })}>
+                Salir
+            </Button>
+        );
+        return buttons;
     };
 
     const displayDesktop = () => {
@@ -126,9 +131,9 @@ function AppNavBar(props: any) {
     };
 
     const getDrawerChoices = () => {
-        return headersData.map(({ label, href }) => {
+        let buttons = headersData.map(({ label, href }) => {
             return (
-                <Link
+                <StyledLink
                     {...{
                         component: Link,
                         to: href,
@@ -138,9 +143,16 @@ function AppNavBar(props: any) {
                     }}
                 >
                     <MenuItem>{label}</MenuItem>
-                </Link>
+                </StyledLink>
             );
         });
+
+        buttons.push(
+            <StyledLink className={classes.drawerLink} onClick={() => authDispatch({ type: "logout" })}>
+                <MenuItem>Salir</MenuItem>
+            </StyledLink>
+        );
+        return buttons;
     };
 
 
@@ -161,7 +173,7 @@ function AppNavBar(props: any) {
                         onClick: handleDrawerOpen,
                     }}
                 >
-                    <MenuIcon/>
+                    <MenuIcon />
                 </IconButton>
 
                 <Drawer

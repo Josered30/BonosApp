@@ -5,12 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './styles/theme';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

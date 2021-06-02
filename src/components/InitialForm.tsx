@@ -1,14 +1,14 @@
 
-import { Button, Card, CardContent, Grid, makeStyles } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
 
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
-        minHeight: '100vh',  
+        minHeight: '100vh',
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -21,14 +21,37 @@ const useStyles = makeStyles({
         maxWidth: "50rem",
         backgroundColor: "#303030",
     },
+
     column: {
+        height: "100%",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
     },
-    buttom: {
-        margin: "1rem 0px"
+
+    button: {
+        margin: "1rem"
     },
-});
+
+    buttons: {
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "start",
+        flex: 4,
+        flexDirection: "column",
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: "row"
+        }
+    },
+
+    title: {
+        textAlign: "center",
+        flex: 2,
+        padding: "2rem 0px",
+    }
+}));
 
 function InitialForm({ setLogin }: any) {
 
@@ -47,18 +70,24 @@ function InitialForm({ setLogin }: any) {
         <div className={classes.root}>
             <Card className={classes.card}>
                 <CardContent>
-                    <Grid container alignItems="center" justify="center" spacing={3}>
-                        <Grid item sm={12} md={3}>
+                    <Grid container justify="center" spacing={3} alignItems="stretch">
+                        <Grid item xs={12} md={3}>
                             <div className={classes.column}>
-                                <Button className={classes.buttom} variant="outlined" onClick={() => setOption(0)}>
-                                    Ingresar
+                                <Typography variant="h5" className={classes.title}>
+                                    Bonos App
+                                </Typography>
+
+                                <div className={classes.buttons}>
+                                    <Button className={classes.button} variant="outlined" onClick={() => setOption(0)}>
+                                        Ingresar
                                     </Button>
-                                <Button className={classes.buttom} variant="outlined" onClick={() => setOption(1)}>
-                                    Registrarse
+                                    <Button className={classes.button} variant="outlined" onClick={() => setOption(1)}>
+                                        Registrarse
                                     </Button>
+                                </div>
                             </div>
                         </Grid>
-                        <Grid item sm={12} md={9}>
+                        <Grid item xs={12} md={9}>
                             {content}
                         </Grid>
                     </Grid>

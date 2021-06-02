@@ -1,5 +1,5 @@
 import classes from "*.module.css";
-import { Button, Card, CardContent, Container, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
+import { Button, Card, CardContent, Container, Divider, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
 import { timeStamp } from "console";
 import React, { useState } from "react";
 import { EntityType } from "../models/enums/entityType";
@@ -52,6 +52,7 @@ function RegisterOptions({ setOption }: any) {
                     Persona juridica
                 </Button>
                 <Divider />
+                
                 <Button className={classes.buttom} fullWidth variant="contained" color="primary" onClick={() => setOption(2)}>
                     Persona natural
                 </Button>
@@ -259,6 +260,10 @@ function RegisterLegalPerson() {
             }
         }
 
+        if ("entityType" in value) {
+            temp.entityType = value.entityType !== EntityType.NONE ? "" : "Entidad no valida"
+        }
+
         if ("password" in value) {
             temp.password = value.password ? "" : "Este campo es requerido";
             if (value.password) {
@@ -320,7 +325,10 @@ function RegisterLegalPerson() {
                 </Grid>
 
                 <Grid item xs={12} md={6} >
-                    <FormControl className={classes.formControl} >
+                    <FormControl 
+                    className={classes.formControl}
+                    error={(errors.entityType?.length > 0)}
+                     >
                         <InputLabel id="entityTypeLabel">Tipo de entidad</InputLabel>
                         <Select
                             labelId="entityTypeLabel"
@@ -329,10 +337,11 @@ function RegisterLegalPerson() {
                             value={values.entityType}
                             onChange={changeValue}
                         >
-                            <MenuItem value={EntityType.NONE}>None</MenuItem>
+                            <MenuItem value={EntityType.NONE}>Ninguno</MenuItem>
                             <MenuItem value={EntityType.BUSSINESS}>Empresa</MenuItem>
                             <MenuItem value={EntityType.INSTITUTION}>Intitucion</MenuItem>
                         </Select>
+                        <FormHelperText>{errors.entityType}</FormHelperText>
                     </FormControl>
 
 

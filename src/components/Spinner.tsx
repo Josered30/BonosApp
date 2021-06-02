@@ -31,11 +31,11 @@ function Spinner() {
 
 
 function SpinnerDisplay() {
-    const { state } = useSpinner();
-    if (state.state) {
+    const { spinnerState } = useSpinner();
+    if (spinnerState.state) {
         return (<Spinner></Spinner>);
-    } 
+    }
     return null;
 }
 
-export {SpinnerDisplay, Spinner};
+export { SpinnerDisplay, Spinner };
