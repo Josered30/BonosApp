@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 function Spinner() {
     const classes = useStyles();
     return (
@@ -28,7 +27,6 @@ function Spinner() {
         </div>
     )
 }
-
 
 function SpinnerDisplay() {
     const { spinnerState } = useSpinner();
