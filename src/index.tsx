@@ -10,8 +10,8 @@ import { BrowserRouter } from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      
+      <CssBaseline/>
+  
       <BrowserRouter>
         <App />
       </BrowserRouter>

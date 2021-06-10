@@ -10,35 +10,43 @@ import LoginGuard from './guards/LoginGuard';
 import { AuthProvider } from './contexts/AuthContext';
 import AppLayout from './layouts/AppLayout';
 import LoginLayout from './layouts/LoginLayout';
+import LogoutGuard from './guards/LogoutGuard';
 
-
+const Home = lazy(() => import("./components/Home"));
+const Calculator = lazy(() => import("./components/Calculator"));
+const BuySell = lazy(() => import("./components/BuySell"));
 
 
 function App() {
-
-  const Home = lazy(() => import("./components/Home"));
-
   return (
-    
+
     <Suspense fallback={<Spinner></Spinner>}>
       <AuthProvider>
         <SpinnerProvider>
           <Switch>
+
             <Route exact path="/">
               <Redirect to="/home"></Redirect>
             </Route>
 
-
-            <Route exact path="/login">
+            <LogoutGuard path="/login">
               <LoginLayout component={InitialForm} />
-            </Route>
+            </LogoutGuard>
 
             <LoginGuard path="/home">
               <AppLayout component={Home}></AppLayout>
             </LoginGuard>
 
+            <LoginGuard path="/calculator">
+              <AppLayout component={Calculator}></AppLayout>
+            </LoginGuard>
+
+            <LoginGuard path="/buysell">
+              <AppLayout component={BuySell}></AppLayout>
+            </LoginGuard>
+
           </Switch>
-          <SpinnerDisplay/>
+          <SpinnerDisplay />
         </SpinnerProvider>
       </AuthProvider>
     </Suspense>

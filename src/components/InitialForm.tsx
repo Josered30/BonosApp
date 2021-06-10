@@ -2,7 +2,9 @@
 import { Button, Card, CardContent, Grid, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import Login from "./Login";
+import LogoIcon from "./LogoIcon";
 import Register from "./Register";
+
 
 
 
@@ -21,7 +23,6 @@ const useStyles = makeStyles(theme => ({
         maxWidth: "50rem",
         backgroundColor: "#303030",
     },
-
     column: {
         height: "100%",
         display: "flex",
@@ -29,27 +30,39 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         justifyContent: "center"
     },
-
     button: {
-        margin: "1rem"
+        margin: "1rem",
+        width: "8rem",
+        [theme.breakpoints.down('xs')]: {
+            margin: "0rem 1rem",
+        }
     },
-
     buttons: {
         height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "start",
-        flex: 4,
+        flex: 3,
         flexDirection: "column",
         [theme.breakpoints.down('xs')]: {
-            flexDirection: "row"
+            flexDirection: "row",
+            flex: 2
         }
     },
-
     title: {
-        textAlign: "center",
         flex: 2,
-        padding: "2rem 0px",
+        margin: "2rem",
+        height: "10rem",
+        width: "10rem",
+        [theme.breakpoints.down('xs')]: {
+            margin: "0.2rem 1rem 0.2rem 1rem",
+        }
+    },
+    iconTitle: {
+        textAlign: "center",
+        fontSize: "1.5rem",
+        margin: 0,
+        color: theme.palette.secondary.main
     }
 }));
 
@@ -57,6 +70,7 @@ function InitialForm({ setLogin }: any) {
 
     const [option, setOption] = useState(0);
     const classes = useStyles();
+    const theme = useTheme();
 
     let content = null;
 
@@ -73,15 +87,16 @@ function InitialForm({ setLogin }: any) {
                     <Grid container justify="center" spacing={3} alignItems="stretch">
                         <Grid item xs={12} md={3}>
                             <div className={classes.column}>
-                                <Typography variant="h5" className={classes.title}>
-                                    Bonos App
-                                </Typography>
+
+                                <LogoIcon className="init" fill={theme.palette.secondary.main}>
+                                    
+                                </LogoIcon>
 
                                 <div className={classes.buttons}>
-                                    <Button className={classes.button} variant="outlined" onClick={() => setOption(0)}>
+                                    <Button className={classes.button} variant="outlined" color="secondary" onClick={() => setOption(0)}>
                                         Ingresar
                                     </Button>
-                                    <Button className={classes.button} variant="outlined" onClick={() => setOption(1)}>
+                                    <Button className={classes.button} variant="outlined" color="secondary" onClick={() => setOption(1)}>
                                         Registrarse
                                     </Button>
                                 </div>

@@ -31,7 +31,7 @@ function Login(props: any) {
     } as LogIn);
 
     const history = useHistory();
-    const {authDispatch} = useAuth();
+    const { authDispatch } = useAuth();
 
     const [errors, setErrors] = useState({} as any);
 
@@ -46,10 +46,12 @@ function Login(props: any) {
 
     const validate = (value: any) => {
         let temp: any = { ...errors };
+        const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
         if ("email" in value) {
             temp.email = value.email ? "" : "Este campo es requerido";
             if (value.email) {
-                temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value.email)
+                temp.email = emailRegex.test(value.email)
                     ? ""
                     : "Correo no valido"
             }
@@ -65,12 +67,12 @@ function Login(props: any) {
 
     const login = () => {
         //if (values.email && values.password &&
-    //        Object.values(errors).every((x) => x === "")) {
-           
-            authDispatch({ type: 'login'})
-            history.push("/");
-            
-     //   }
+        //        Object.values(errors).every((x) => x === "")) {
+
+        authDispatch({ type: 'login' })
+        history.push("/home");
+
+        //   }
     };
 
     return (
@@ -91,7 +93,7 @@ function Login(props: any) {
                                 fullWidth
                                 id="email"
                                 name="email"
-                                label="correo"
+                                label="Correo"
                                 onChange={changeValue}
                                 error={(errors.email?.length > 0)}
                                 helperText={errors.email}
@@ -104,7 +106,7 @@ function Login(props: any) {
                                 fullWidth
                                 id="password"
                                 name="password"
-                                label="contraseña"
+                                label="Contraseña"
                                 type="password"
                                 onChange={changeValue}
                                 error={(errors.password?.length > 0)}

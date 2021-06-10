@@ -1,6 +1,4 @@
-import classes from "*.module.css";
 import { Button, Card, CardContent, Container, Divider, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
-import { timeStamp } from "console";
 import React, { useState } from "react";
 import { EntityType } from "../models/enums/entityType";
 import { LegalPersonRegister } from "../models/legalPersonRegister";
@@ -140,7 +138,7 @@ function RegisterNaturalPerson() {
                         fullWidth
                         id="name"
                         name="name"
-                        label="nombre"
+                        label="Nombre"
                         onChange={changeValue}
                         error={(errors.name?.length > 0)}
                         helperText={errors.name}
@@ -153,7 +151,7 @@ function RegisterNaturalPerson() {
                         fullWidth
                         id="lastName"
                         name="lastName"
-                        label="apellidos"
+                        label="Apellidos"
                         onChange={changeValue}
                         error={(errors.lastName?.length > 0)}
                         helperText={errors.lastName}
@@ -166,7 +164,7 @@ function RegisterNaturalPerson() {
                         fullWidth
                         id="dni"
                         name="dni"
-                        label="dni"
+                        label="DNI"
                         onChange={changeValue}
                         error={(errors.dni?.length > 0)}
                         helperText={errors.dni}
@@ -179,7 +177,7 @@ function RegisterNaturalPerson() {
                         fullWidth
                         id="email"
                         name="email"
-                        label="correo"
+                        label="Correo"
                         onChange={changeValue}
                         error={(errors.email?.length > 0)}
                         helperText={errors.email}
@@ -193,7 +191,7 @@ function RegisterNaturalPerson() {
                         fullWidth
                         id="password"
                         name="password"
-                        label="contraseña"
+                        label="Contraseña"
                         type="password"
                         onChange={changeValue}
                         error={(errors.password?.length > 0)}
@@ -239,7 +237,7 @@ function RegisterLegalPerson() {
     const validate = (value: any) => {
 
         let temp: any = { ...errors };
-        const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$'/;
+        const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
         const numberRegex: RegExp = /\D+/gm;
 
         if ("bussinessName" in value) {
@@ -261,7 +259,7 @@ function RegisterLegalPerson() {
         }
 
         if ("entityType" in value) {
-            temp.entityType = value.entityType !== EntityType.NONE ? "" : "Entidad no valida"
+            temp.entityType = value.entityType !== EntityType.None ? "" : "Entidad no valida"
         }
 
         if ("password" in value) {
@@ -271,7 +269,7 @@ function RegisterLegalPerson() {
             }
         }
 
-        if ("ruc" in value && values.entityType === EntityType.BUSSINESS) {
+        if ("ruc" in value && values.entityType === EntityType.Bussiness) {
             temp.ruc = value.ruc ? "" : "Este campo es requerido";
             if (value.ruc) {
                 temp.ruc = numberRegex.test(value.ruc) ? "Ruc invalida" : "";
@@ -303,7 +301,7 @@ function RegisterLegalPerson() {
                         fullWidth
                         id="bussinessName"
                         name="bussinessName"
-                        label="razon social"
+                        label="Razon social"
                         onChange={changeValue}
                         error={(errors.bussinessName?.length > 0)}
                         helperText={errors.bussinessName}
@@ -316,7 +314,7 @@ function RegisterLegalPerson() {
                         className={classes.formControl}
                         id="registerYear"
                         name="registerYear"
-                        label="año de registro"
+                        label="Año de registro"
                         onChange={changeValue}
                         error={(errors.registerYear?.length > 0)}
                         helperText={errors.registerYear}
@@ -337,9 +335,9 @@ function RegisterLegalPerson() {
                             value={values.entityType}
                             onChange={changeValue}
                         >
-                            <MenuItem value={EntityType.NONE}>Ninguno</MenuItem>
-                            <MenuItem value={EntityType.BUSSINESS}>Empresa</MenuItem>
-                            <MenuItem value={EntityType.INSTITUTION}>Intitucion</MenuItem>
+                            <MenuItem value={EntityType.None}>Ninguno</MenuItem>
+                            <MenuItem value={EntityType.Bussiness}>Empresa</MenuItem>
+                            <MenuItem value={EntityType.Institution}>Intitucion</MenuItem>
                         </Select>
                         <FormHelperText>{errors.entityType}</FormHelperText>
                     </FormControl>
@@ -353,7 +351,7 @@ function RegisterLegalPerson() {
                         fullWidth
                         id="ruc"
                         name="ruc"
-                        label="ruc"
+                        label="RUC"
                         onChange={changeValue}
                         error={(errors.ruc?.length > 0)}
                         helperText={errors.ruc}
@@ -366,7 +364,7 @@ function RegisterLegalPerson() {
                         fullWidth
                         id="email"
                         name="email"
-                        label="correo"
+                        label="Correo"
                         onChange={changeValue}
                         error={(errors.email?.length > 0)}
                         helperText={errors.email}
@@ -379,7 +377,7 @@ function RegisterLegalPerson() {
                         fullWidth
                         id="password"
                         name="password"
-                        label="contraseña"
+                        label="Contraseña"
                         type="password"
                         onChange={changeValue}
                         error={(errors.password?.length > 0)}

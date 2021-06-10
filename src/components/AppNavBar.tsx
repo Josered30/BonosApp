@@ -1,16 +1,17 @@
-import { AppBar, Link as StyledLink, makeStyles, Toolbar, Typography, Button, MenuItem, IconButton, Drawer } from '@material-ui/core';
+import { AppBar, Link as StyledLink, makeStyles, Toolbar, Typography, Button, MenuItem, IconButton, Drawer, useTheme, colors } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth } from '../contexts/AuthContext';
+import LogoIcon from './LogoIcon';
 
 
 
 const headersData = [
     {
         label: "Inicio",
-        href: "/",
+        href: "/home",
     },
     {
         label: "Calculadora",
@@ -22,11 +23,11 @@ const headersData = [
     },
     {
         label: "Configuracion",
-        href: "/configuracion",
+        href: "/configuration",
     },
 ];
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     header: {
         paddingRight: "79px",
         paddingLeft: "118px",
@@ -45,6 +46,7 @@ const useStyles = makeStyles(() => ({
         fontWeight: 700,
         size: "18px",
         marginLeft: "38px",
+        color: theme.palette.primary.main
     },
     toolbar: {
         display: "flex",
@@ -54,9 +56,57 @@ const useStyles = makeStyles(() => ({
         padding: "20px 30px",
     },
     drawerLink: {
-        color: "white",
+        color: theme.palette.secondary.main,
         textDecoration: "none"
-    }
+    },
+
+    drawer: {
+        backgroundColor: theme.palette.primary.main
+    },
+
+    title: {
+        display: "flex",
+        flexDirection: "row",
+        alignContent: "center",
+        justifyContent: "center",
+    },
+    icon: {
+        height: "3rem",
+        width: "3rem",
+        margin: "0.2rem 1rem 0.2rem 1rem",
+        fill: theme.palette.secondary.main,
+        [theme.breakpoints.down('xs')]: {
+            margin: "0.5rem 1rem 0.5rem 1rem",
+        }
+    },
+
+    titleText: {
+        lineHeight: "4rem",
+        textAlign: "center",
+        color: theme.palette.secondary.main,
+        [theme.breakpoints.down('xs')]: {
+            display: "none"
+        }
+    },
+
+    logoutButton: {
+        fontFamily: "Open Sans, sans-serif",
+        fontWeight: 700,
+        size: "18px",
+        marginLeft: "38px",
+        backgroundColor: colors.red[900],
+        color: theme.palette.primary.contrastText,
+        '&:hover': {
+            backgroundColor: colors.red[900],
+        },
+    },
+
+    logoutDrawerLink: {
+        color: colors.red[900],
+        textDecoration: "none"
+    },
+
+
 }));
 
 
@@ -72,6 +122,8 @@ function AppNavBar(props: any) {
     const { mobileView, drawerOpen } = state;
 
     const { authDispatch } = useAuth();
+
+    const theme = useTheme();
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -91,18 +143,27 @@ function AppNavBar(props: any) {
     const classes = useStyles();
 
     const logo = (
-        <Typography variant="h6" component="h1" className={classes.logo}>
-            Bonos App
-        </Typography>
+        <div className={classes.title}>
+            <LogoIcon
+                className="app-bar"
+                fill={theme.palette.secondary.main}
+            >
+            </LogoIcon>
+
+            <Typography className={classes.titleText} variant="h6" component="h1">
+                Bonos App
+            </Typography>
+        </div>
     );
 
     const getMenuButtons = () => {
         let buttons = headersData.map(({ label, href }) => {
             return (
                 <Button
+                    variant="contained"
                     {...{
                         key: label,
-                        color: "inherit",
+                        color: "secondary",
                         to: href,
                         component: Link,
                         className: classes.menuButton,
@@ -114,7 +175,12 @@ function AppNavBar(props: any) {
         });
 
         buttons.push(
-            <Button className={classes.menuButton} onClick={() => authDispatch({ type: "logout" })}>
+            <Button
+                variant="contained"
+                color="secondary"
+                className={classes.logoutButton}
+                key="logout"
+                onClick={() => authDispatch({ type: "logout" })}>
                 Salir
             </Button>
         );
@@ -148,7 +214,7 @@ function AppNavBar(props: any) {
         });
 
         buttons.push(
-            <StyledLink className={classes.drawerLink} onClick={() => authDispatch({ type: "logout" })}>
+            <StyledLink key="logout" className={classes.logoutDrawerLink} onClick={() => authDispatch({ type: "logout" })}>
                 <MenuItem>Salir</MenuItem>
             </StyledLink>
         );
@@ -177,6 +243,7 @@ function AppNavBar(props: any) {
                 </IconButton>
 
                 <Drawer
+                    classes={{paper: classes.drawer}}
                     {...{
                         anchor: "left",
                         open: drawerOpen,

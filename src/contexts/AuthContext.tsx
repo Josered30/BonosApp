@@ -1,10 +1,14 @@
 import React from "react";
 import { createContext, useReducer, useState } from "react"
+import { Role } from "../models/enums/role";
 
 
 type Action = { type: 'login' } | { type: 'logout' };
 type Dispatch = (action: Action) => void;
-type State = { state: boolean };
+type State = {
+    state: boolean,
+    role: Role
+};
 type AuthProviderProps = { children: React.ReactNode };
 
 
@@ -13,16 +17,22 @@ const AuthContext = createContext<{ authState: State, authDispatch: Dispatch } |
 function authReducer(state: State, action: Action) {
     switch (action.type) {
         case 'login': {
-            return { state: true };
+            return {
+                state: true,
+                role: Role.Bussinness
+            };
         }
         case 'logout': {
-            return { state: false };
+            return {
+                state: false,
+                role: Role.Bussinness
+            };
         }
     }
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [state, dispatch] = useReducer(authReducer, { state: false });
+    const [state, dispatch] = useReducer(authReducer, { state: false, role: Role.None });
     const value = { authState: state, authDispatch: dispatch };
 
     return (

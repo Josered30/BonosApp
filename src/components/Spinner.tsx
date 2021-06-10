@@ -23,7 +23,7 @@ function Spinner() {
     const classes = useStyles();
     return (
         <div className={classes.spinner}>
-            <CircularProgress />
+            <CircularProgress color="secondary"/>
         </div>
     )
 }
