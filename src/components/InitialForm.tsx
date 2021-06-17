@@ -1,9 +1,10 @@
 
-import { Button, Card, CardContent, Grid, makeStyles, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, makeStyles, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import Login from "./Login";
 import LogoIcon from "./LogoIcon";
 import Register from "./Register";
+import styles from '../styles/LogoIcon.module.css';
 
 
 
@@ -88,7 +89,7 @@ function InitialForm({ setLogin }: any) {
                         <Grid item xs={12} md={3}>
                             <div className={classes.column}>
 
-                                <LogoIcon className="init" fill={theme.palette.secondary.main}>
+                                <LogoIcon className={styles.init} fill={theme.palette.secondary.main}>
                                     
                                 </LogoIcon>
 

@@ -1,10 +1,12 @@
 import { AppBar, Link as StyledLink, makeStyles, Toolbar, Typography, Button, MenuItem, IconButton, Drawer, useTheme, colors } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth } from '../contexts/AuthContext';
 import LogoIcon from './LogoIcon';
+
+import styles from '../styles/LogoIcon.module.css';
 
 
 
@@ -145,7 +147,7 @@ function AppNavBar(props: any) {
     const logo = (
         <div className={classes.title}>
             <LogoIcon
-                className="app-bar"
+                className={styles.appBar}
                 fill={theme.palette.secondary.main}
             >
             </LogoIcon>

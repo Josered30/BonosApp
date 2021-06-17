@@ -1,9 +1,10 @@
 import { BondCalculatorInfo } from "./bondCalculatorInfo";
-import { EnumType } from "./enumType";
+import { Frequency } from "./enums/frequency";
+
 
 export interface BondCalculatorOutput {
-  couponFrequency?: EnumType;
-  capitalizationDays?: EnumType;
+  couponFrequency?: Frequency;
+  capitalizationDays?: number;
   periodsPerYear?: number;
   totalPeriods?: number;
   annualEfectiveRate?: number;
@@ -11,5 +12,5 @@ export interface BondCalculatorOutput {
   initialEmmiterCosts?: number;
   initialHolderCosts?: number;
   currentPrice?: number;
-  data: BondCalculatorInfo[];
+  calculatorInfo: BondCalculatorInfo[];
 }

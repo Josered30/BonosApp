@@ -2,12 +2,15 @@ import DateFnsUtils from "@date-io/date-fns";
 import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { ExpandMoreRounded } from "@material-ui/icons";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { Fragment, useEffect, useState } from "react";
-import { BondCalculatorInput } from "../models/bondCalculatorInput";
+import clsx from "clsx";
+import { Fragment, useState} from "react";
+import useForm from "../hooks/useForms";
 import { BondCalculatorOutput } from "../models/bondCalculatorOutput";
-import { EnumType } from "../models/enumType";
+import { Frequency } from "../models/enums/frequency";
+import { PaymentMethod } from "../models/enums/paymentMethod";
+import { Rate } from "../models/enums/rate";
 import { ColumnData } from "../models/virtualizeTableModel";
-import { getInterestRateTypes, getPaymentMethods } from "../services/calculatorService";
+import { EnumData, getEnumData } from "../utils/enumUtils";
 import VirtualizedTable from "./VirtualizeTable";
 
 
@@ -40,74 +43,91 @@ const useStyles = makeStyles((theme) => ({
     },
 
     table: {
-        height: "10rem",
-        width: "100%"
+        width: "100%",
+        margin: "1rem 0rem"
+    },
+    tableFill: {
+        height: "20rem",
     }
 }));
 
 
 const columnNames: ColumnData[] = [
     {
-        width: 1,
+        width: 200,
         label: "Indice",
         dataKey: "index"
     },
     {
-        width: 1,
+        width: 200,
         label: "Fecha",
         dataKey: "date"
     },
     {
-        width: 1,
+        width: 200,
         label: "Periodo de gracia",
         dataKey: "gracePeriod"
     },
     {
-        width: 1,
+        width: 200,
         label: "Bono",
         dataKey: "bond"
     },
     {
-        width: 1,
+        width: 200,
         label: "Cupon",
         dataKey: "coupon"
     },
     {
-        width: 1,
+        width: 200,
         label: "Couta",
         dataKey: "fee"
     },
     {
-        width: 1,
+        width: 200,
         label: "Amortizacion",
         dataKey: "amortization"
     },
     {
-        width: 1,
+        width: 200,
         label: "Prima",
         dataKey: "prima"
     },
     {
-        width: 1,
+        width: 200,
         label: "Escudo",
         dataKey: "shield"
     },
     {
-        width: 1,
+        width: 200,
         label: "Flujo emisor",
         dataKey: "emmiteFlow"
     },
     {
-        width: 1,
+        width: 200,
         label: "Flujo emisor con escudo",
         dataKey: "emmiterShieldFlow"
     },
     {
-        width: 1,
+        width: 200,
         label: "Flujo bonista",
         dataKey: "holderFlow"
     }
 ];
+
+
+function calculatorInputValidation(
+    newValues: any,
+    currentValues: any,
+    errors: any,
+    setErrors: (error: any) => void): void {
+
+}
+
+const paymentMethods: EnumData[] = getEnumData(PaymentMethod);
+const insterestRateTypes: EnumData[] = getEnumData(Rate);
+const capitalizations: EnumData[] = getEnumData(Frequency);
+const couponFrequency: EnumData[] = getEnumData(Frequency);
 
 
 function Calculator() {
@@ -115,32 +135,29 @@ function Calculator() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
-    const [inputData, setInputData] = useState({
-        emmitionDate: new Date()
-    } as BondCalculatorInput);
-
-    const handleEmmitionDate = (newDate: any) => setInputData({
-        ...inputData,
-        emmitionDate: newDate
+    const { values, errors, handleChange } = useForm({
+        initialValues: {
+            emmitionDate: new Date()
+        },
     });
 
-    const [errors, setErrors] = useState({} as any);
+    const handleEmmitionDate = (newDate: any) => {
+        const event = {
+            target: {
+                name: "emmitionDate",
+                value: newDate
+            }
+        };
+        handleChange(event);
+    };
 
     const [inputExpanded, setInputExpanded] = useState(true);
     const [outputExpanded, setOutputExpanded] = useState(false);
 
     const [outputData, setOutputData] = useState({
-        data: []
+        calculatorInfo: []
     } as BondCalculatorOutput);
 
-    const changeValue = (event: any) => {
-        const { name, value } = event.target;
-        setInputData({
-            ...inputData,
-            [name]: value
-        });
-        //validate({ [name]: value });
-    };
 
     const handleInputAccordion = () => setInputExpanded(!inputExpanded);
     const handleOuputAccordion = () => setOutputExpanded(!outputExpanded);
@@ -150,31 +167,8 @@ function Calculator() {
         setOutputExpanded(true);
     }
 
-    const [selectionData, setSelectionData] = useState({
-        paymentMethods: [] as EnumType[],
-        insterestRateTypes: [] as EnumType[],
-        capitalizations: [] as EnumType[]
-    });
 
-
-    useEffect(() => {
-        async function getPaymentMethodsAux() {
-            const data = await getPaymentMethods();
-            setSelectionData({
-                ...selectionData,
-                paymentMethods: data
-            });
-        }
-
-        async function getInterestRateTypesAux() {
-            const data = await getInterestRateTypes();
-            setSelectionData({
-                ...selectionData,
-                insterestRateTypes: data
-            });
-        }
-    }, [selectionData])
-
+    const tableClass = clsx(classes.table, outputExpanded && classes.tableFill);
 
     return (
         <Fragment>
@@ -208,9 +202,9 @@ function Calculator() {
                                     labelId="paymentMethodLabel"
                                     id="paymentMethod"
                                     name="paymentMethod"
-                                    onChange={changeValue}
+                                    onChange={handleChange}
                                 >
-                                    {selectionData.paymentMethods.map(e => {
+                                    {paymentMethods.map(e => {
                                         return (
                                             <MenuItem value={e.value}>{e.label}</MenuItem>
                                         );
@@ -227,7 +221,7 @@ function Calculator() {
                                 id="nominalValue"
                                 name="nominalValue"
                                 label="Valor nominal"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.nominalValue?.length > 0)}
                                 helperText={errors.nominalValue}
                                 autoComplete="off"
@@ -240,7 +234,7 @@ function Calculator() {
                                 id="commercialValue"
                                 name="commercialValue"
                                 label="Valor comercial"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.commercial?.length > 0)}
                                 helperText={errors.commercial}
                                 autoComplete="off"
@@ -248,16 +242,25 @@ function Calculator() {
                         </Grid>
 
                         <Grid item xs={12} md={4}>
-                            <TextField
-                                fullWidth
-                                id="couponFrequency"
-                                name="couponFrequency"
-                                label="Frenquencia del cupon"
-                                onChange={changeValue}
-                                error={(errors.couponFrequency?.length > 0)}
-                                helperText={errors.couponFrequency}
-                                autoComplete="off"
-                            />
+                            <FormControl
+                                className={classes.formControl}
+                                error={(errors.insterestRateType?.length > 0)}
+                            >
+                                <InputLabel id="couponFrequencyLabel">Frequencia del cupon</InputLabel>
+                                <Select
+                                    labelId="couponFrequencyLabel"
+                                    id="couponFrequency"
+                                    name="couponFrequency"
+                                    onChange={handleChange}
+                                >
+                                    {couponFrequency.map(e => {
+                                        return (
+                                            <MenuItem value={e.value}>{e.label}</MenuItem>
+                                        );
+                                    })}
+                                </Select>
+                                <FormHelperText>{errors.insterestRateType}</FormHelperText>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={12} md={4}>
@@ -266,7 +269,7 @@ function Calculator() {
                                 id="daysPerYear"
                                 name="daysPerYear"
                                 label="Dias por año"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.daysPerYear?.length > 0)}
                                 helperText={errors.daysPerYear}
                                 autoComplete="off"
@@ -283,9 +286,9 @@ function Calculator() {
                                     labelId="interestRateTypeLabel"
                                     id="insterestRateType"
                                     name="insterestRateType"
-                                    onChange={changeValue}
+                                    onChange={handleChange}
                                 >
-                                    {selectionData.insterestRateTypes.map(e => {
+                                    {insterestRateTypes.map(e => {
                                         return (
                                             <MenuItem value={e.value}>{e.label}</MenuItem>
                                         );
@@ -305,9 +308,9 @@ function Calculator() {
                                     labelId="capitalizationLabel"
                                     id="capitalization"
                                     name="capitalization"
-                                    onChange={changeValue}
+                                    onChange={handleChange}
                                 >
-                                    {selectionData.capitalizations.map(e => {
+                                    {capitalizations.map(e => {
                                         return (
                                             <MenuItem value={e.value}>{e.label}</MenuItem>
                                         );
@@ -323,7 +326,7 @@ function Calculator() {
                                 id="interestRate"
                                 name="interestRate"
                                 label="Tasa de interes"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.interestRate?.length > 0)}
                                 helperText={errors.interestRate}
                                 autoComplete="off"
@@ -336,7 +339,7 @@ function Calculator() {
                                 id="annualDiscountRate"
                                 name="annualDiscountRate"
                                 label="Tasa anual de descuento"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.annualDiscountRate?.length > 0)}
                                 helperText={errors.annualDiscountRate}
                                 autoComplete="off"
@@ -349,7 +352,7 @@ function Calculator() {
                                 id="incomeTax"
                                 name="incomeTax"
                                 label="Impuesto a la renta"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.incomeTax?.length > 0)}
                                 helperText={errors.incomeTax}
                                 autoComplete="off"
@@ -367,7 +370,7 @@ function Calculator() {
                                     id="emmitionDate"
                                     name="emmitionDate"
                                     label="Fecha de emision"
-                                    value={inputData.emmitionDate}
+                                    value={values.emmitionDate}
                                     onChange={handleEmmitionDate}
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
@@ -382,7 +385,7 @@ function Calculator() {
                                 id="prima"
                                 name="prima"
                                 label="Prima"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.prima?.length > 0)}
                                 helperText={errors.prima}
                                 autoComplete="off"
@@ -395,7 +398,7 @@ function Calculator() {
                                 id="flotacion"
                                 name="flotacion"
                                 label="Flotacion"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.flotacion?.length > 0)}
                                 helperText={errors.flotacion}
                                 autoComplete="off"
@@ -408,9 +411,22 @@ function Calculator() {
                                 id="cavali"
                                 name="cavali"
                                 label="Cavali"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.cavali?.length > 0)}
                                 helperText={errors.cavali}
+                                autoComplete="off"
+                            />
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <TextField
+                                fullWidth
+                                id="years"
+                                name="years"
+                                label="Numero de años"
+                                onChange={handleChange}
+                                error={(errors.years?.length > 0)}
+                                helperText={errors.years}
                                 autoComplete="off"
                             />
                         </Grid>
@@ -516,15 +532,15 @@ function Calculator() {
                 </AccordionDetails>
             </Accordion>
 
-            <Paper className={classes.table}>
+
+            <Paper className={tableClass}>
                 <VirtualizedTable
-                    rowCount={outputData.data.length}
-                    rowGetter={({ index }) => outputData.data[index]}
+                    rowCount={outputData.calculatorInfo.length}
+                    rowGetter={({ index }) => outputData.calculatorInfo[index]}
                     columns={columnNames}
                     headerHeight={100}
                 />
             </Paper>
-
 
 
         </Fragment>

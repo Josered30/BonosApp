@@ -1,13 +1,15 @@
-import { EnumType } from "./enumType";
+import { Frequency } from "./enums/frequency";
+import { Rate } from "./enums/rate";
+
 
 export interface BondCalculatorInput {
   nominalValue?: number;
   commercialValue?: number;
   year?: number;
-  couponFrequency?: EnumType;
+  couponFrequency?: Frequency;
   daysPerYear?: number;
-  interestRateType?: EnumType;
-  capitalization?: EnumType;
+  interestRateType?: Rate;
+  capitalization?: Frequency;
   interestRate?: number;
   annualDiscountRate?: number;
   incomeTax?: number;

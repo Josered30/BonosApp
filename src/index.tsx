@@ -6,16 +6,20 @@ import reportWebVitals from './reportWebVitals';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './styles/theme';
 import { BrowserRouter } from 'react-router-dom';
+import '@fontsource/roboto';
+import { AuthProvider } from './contexts/AuthContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline/>
-  
+      <CssBaseline />
       <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      
+        <AuthProvider>
+          <App />
+        </AuthProvider>
 
+      </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')

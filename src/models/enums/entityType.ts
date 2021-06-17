@@ -1,5 +1,5 @@
 export enum EntityType {
-  None,
-  Bussiness,
-  Institution,
+  Vacio,
+  Empresa,
+  institucion,
 }

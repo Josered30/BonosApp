@@ -14,6 +14,8 @@ const styles = (theme: Theme) =>
         table: {
             // temporary right-to-left patch, waiting for
             // https://github.com/bvaughn/react-virtualized/issues/454
+            height: "20rem",
+            width: "100%",
             '& .ReactVirtualized__Table__headerRow': {
                 flip: false,
                 paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
@@ -29,11 +31,15 @@ const styles = (theme: Theme) =>
         },
         tableCell: {
             flex: 1,
+        },
+        tableHeader: {
             backgroundColor: theme.palette.primary.main,
         },
         noClick: {
             cursor: 'initial',
         },
+
+
     });
 
 export interface MuiVirtualizedTableProps extends WithStyles<typeof styles> {
@@ -83,7 +89,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
         return (
             <TableCell
                 component="div"
-                className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
+                className={clsx(classes.tableCell, classes.flexContainer, classes.noClick, classes.tableHeader)}
                 variant="head"
                 style={{ height: headerHeight }}
                 align={columns[columnIndex].numeric || false ? 'right' : 'left'}
@@ -95,6 +101,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
 
     render() {
         const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
+
         return (
             <AutoSizer>
                 {({ height, width }) => (
@@ -111,6 +118,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
                         rowClassName={this.getRowClassName}
                     >
                         {columns.map(({ dataKey, ...other }, index) => {
+
                             return (
                                 <Column
                                     key={dataKey}
@@ -123,7 +131,6 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
                                     className={classes.flexContainer}
                                     cellRenderer={this.cellRenderer}
                                     dataKey={dataKey}
-                                    flexGrow={1}
                                     {...other}
                                 />
                             );

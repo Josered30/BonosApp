@@ -1,7 +1,7 @@
 export interface BondSummary {
-  lastPaymentDate: Date;
-  nextPaymentDate: Date;
-  buySellDate: Date;
+  lastPaymentDate: string;
+  nextPaymentDate: string;
+  saleDate: string;
   emmiterName: string;
   title: string;
   id: number;

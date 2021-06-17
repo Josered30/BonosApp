@@ -1,6 +1,6 @@
 export interface BondCalculatorInfo {
   index?: number;
-  date?: Date;
+  date?: string;
   gracePeriod?: string;
   bound?: number;
   coupon?: number;

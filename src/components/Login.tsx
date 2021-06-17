@@ -2,6 +2,7 @@ import { Button, Card, CardContent, Divider, Grid, makeStyles, TextField, Typogr
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import useForm from "../hooks/useForms";
 import { LogIn } from "../models/logIn";
 
 
@@ -21,48 +22,40 @@ const useStyles = makeStyles({
     },
 });
 
+function loginValidation(newValues: any, currentValues: any, errors: any, setErrors: (error: any) => void): void {
+    let temp: any = { ...errors };
+    const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+    if ("email" in newValues) {
+        temp.email = newValues.email ? "" : "Este campo es requerido";
+        if (newValues.email) {
+            temp.email = emailRegex.test(newValues.email)
+                ? ""
+                : "Correo no valido"
+        }
+    }
+    if ("password" in newValues) {
+        temp.password = newValues.password ? "" : "Este campo es requerido";
+    }
+    setErrors({
+        ...temp
+    });
+}
+
 
 function Login(props: any) {
 
     const classes = useStyles();
-    const [values, setValues] = useState({
-        email: "",
-        password: "",
-    } as LogIn);
-
     const history = useHistory();
     const { authDispatch } = useAuth();
 
-    const [errors, setErrors] = useState({} as any);
-
-    const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setValues({
-            ...values,
-            [name]: value
-        });
-        validate({ [name]: value });
-    };
-
-    const validate = (value: any) => {
-        let temp: any = { ...errors };
-        const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
-        if ("email" in value) {
-            temp.email = value.email ? "" : "Este campo es requerido";
-            if (value.email) {
-                temp.email = emailRegex.test(value.email)
-                    ? ""
-                    : "Correo no valido"
-            }
-        }
-        if ("password" in value) {
-            temp.password = value.password ? "" : "Este campo es requerido";
-        }
-        setErrors({
-            ...temp
-        });
-    };
+    const { errors, handleChange } = useForm({
+        initialValues: {
+            email: "",
+            password: "",
+        },
+        validationFunction: loginValidation
+    });
 
 
     const login = () => {
@@ -94,7 +87,7 @@ function Login(props: any) {
                                 id="email"
                                 name="email"
                                 label="Correo"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.email?.length > 0)}
                                 helperText={errors.email}
                                 autoComplete="off"
@@ -108,7 +101,7 @@ function Login(props: any) {
                                 name="password"
                                 label="Contraseña"
                                 type="password"
-                                onChange={changeValue}
+                                onChange={handleChange}
                                 error={(errors.password?.length > 0)}
                                 helperText={errors.password}
                                 autoComplete="off"

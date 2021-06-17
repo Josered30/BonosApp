@@ -1,25 +1,35 @@
 import React from "react";
-import { createContext, useReducer } from "react";
+import { createContext, useReducer} from "react";
 
-type Action = { type: 'loading' } | { type: 'done' };
+
+type Action = {
+    type: string;
+    payload?: any;
+};
+
 type Dispatch = (action: Action) => void;
 type State = { state: boolean };
 type SpinnerProviderProps = { children: React.ReactNode };
 
 
-const SpinnerContext = createContext<{ spinnerState: State, spinnerDispatcher: Dispatch } | undefined>(undefined);
-
-function spinnerReducer(state: State, action: Action) {
-    switch (action.type) {
-        case 'loading': {
-            return { state: true };
-        }
-        case 'done': {
-            return { state: false };
-        }
-    }
+const initialState: State = {
+    state: false
 }
 
+const SpinnerContext = createContext<{ spinnerState: State, spinnerDispatcher: Dispatch } | undefined>(undefined);
+
+function spinnerReducer(state: State, action: Action): State {
+    switch (action.type) {
+        case 'loading': {
+            return { state: true } as State;
+        }
+        case 'done': {
+            return { state: false } as State;
+        }
+        default:
+            return initialState;
+    }
+}
 
 function SpinnerProvider({ children }: SpinnerProviderProps) {
     const [state, dispatch] = useReducer(spinnerReducer, { state: false });

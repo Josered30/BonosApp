@@ -1,6 +1,10 @@
 import { makeStyles, Paper, Typography, useMediaQuery, useTheme } from "@material-ui/core";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { BondSummary } from "../models/bondSummary";
+import { Role } from "../models/enums/role";
 import { ColumnData } from "../models/virtualizeTableModel";
+import testData from "../utils/testData";
 import VirtualizedTable from "./VirtualizeTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -9,9 +13,14 @@ const useStyles = makeStyles((theme) => ({
         margin: "2rem 0rem"
     },
     table: {
-        height: "10rem",
+        height: "20rem",
         width: "100%",
     },
+
+    tableWrapper: {
+        margin: "2rem 0rem"
+    },
+
     tableLabel: {
         display: "inline-block",
         backgroundColor: theme.palette.primary.main,
@@ -23,64 +32,108 @@ const useStyles = makeStyles((theme) => ({
 
 const boughtBondsHeader: ColumnData[] = [
     {
-        width: 1,
+        width: 400,
         dataKey: "title",
         label: "Titulo"
     },
     {
-        width: 1,
+        width: 400,
         dataKey: "emmiterName",
         label: "Emisor"
     },
     {
-        width: 1,
+        width: 500,
         dataKey: "nextPaymentDate",
         label: "Proximo pago"
     },
     {
-        width: 1,
-        dataKey: "adquisitionDate",
+        width: 500,
+        dataKey: "lastPaymentDate",
+        label: "Ultimo pago"
+    },
+    {
+        width: 500,
+        dataKey: "buySellDate",
         label: "Fecha de adquisicion"
     },
-
 ];
 
+
+interface TablesData {
+    buyTableData: BondSummary[],
+    sellTableData: BondSummary[]
+}
+
+
+async function getBuyTableData(setTablesData: any): Promise<void> {
+    setTablesData((state: TablesData) => ({
+        ...state,
+        buyTableData: testData
+    }));
+}
+
+
+function DataTable({ title, data, headers, ...rest }: any) {
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down("xs"));
+    const classes = useStyles();
+
+
+    if (!matches) {
+        return (
+            <div className={classes.tableWrapper}>
+                <div className={classes.tableLabel}>
+                    <Typography variant="h6">
+                        {title}
+                    </Typography>
+                </div>
+                <Paper className={classes.table}>
+                    <VirtualizedTable
+                        rowCount={data.length}
+                        rowGetter={({ index }) => data[index]}
+                        columns={headers}
+                        headerHeight={40}
+                    />
+                </Paper>
+            </div>
+        );
+    }
+
+    return null;
+}
 
 
 function Home() {
     const classes = useStyles();
 
+    const [tablesData, setTablesData] = useState({
+        buyTableData: [],
+        sellTableData: [],
+    } as TablesData);
+
+    useEffect(() => {
+        getBuyTableData(setTablesData);
+    }, []);
+
+    const { authState } = useAuth();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const [tablesData, setTablesData] = useState({
-        buyTableData: [],
-        sellTableData: []
-    });
+    //const { spinnerDispatcher } = useSpinner();
 
     return (
         <Fragment>
             <div className={classes.title}>
                 <Typography variant={matches ? "h5" : "h3"}>
                     Bienvenido a Bono App
-                 </Typography>
+                </Typography>
             </div>
 
-            {!matches ? <div>
-                <div className={classes.tableLabel}>
-                    <Typography variant="h6">
-                        Bonos adquiridos
-                    </Typography>
-                </div>
-                <Paper className={classes.table}>
-                    <VirtualizedTable
-                        rowCount={tablesData.buyTableData.length}
-                        rowGetter={({ index }) => tablesData.buyTableData[index]}
-                        columns={boughtBondsHeader}
-                        headerHeight={40}
-                    />
-                </Paper>
-            </div> : null}
+            <DataTable title="Bonos Adquiridos" data={tablesData.buyTableData} headers={boughtBondsHeader} />
+
+            {(authState.role === Role.Bussinness || authState.role === Role.Institution) ?
+                <DataTable title="Bonos Vendidos" data={tablesData.buyTableData} headers={boughtBondsHeader} /> : null
+            }
         </Fragment>
     );
 }
