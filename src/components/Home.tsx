@@ -1,10 +1,10 @@
 import { makeStyles, Paper, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { Fragment, useEffect, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../core/contexts/AuthContext";
 import { BondSummary } from "../models/bondSummary";
 import { Role } from "../models/enums/role";
 import { ColumnData } from "../models/virtualizeTableModel";
-import testData from "../utils/testData";
+import testData from "../core/utils/testData";
 import VirtualizedTable from "./VirtualizeTable";
 
 const useStyles = makeStyles((theme) => ({

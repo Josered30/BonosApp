@@ -3,14 +3,16 @@ import { Frequency } from "./enums/frequency";
 
 
 export interface BondCalculatorOutput {
-  couponFrequency?: Frequency;
-  capitalizationDays?: number;
-  periodsPerYear?: number;
-  totalPeriods?: number;
-  annualEfectiveRate?: number;
-  annualCok?: number;
-  initialEmmiterCosts?: number;
-  initialHolderCosts?: number;
-  currentPrice?: number;
+  couponFrequency: number;
+  capitalization: number;
+  periodsPerYear: number;
+  totalPeriods: number;
+  annualEfectiveRate: number;
+  couponEfectiveRate: number;
+  couponCok: number; 
+  initialEmmiterCosts: number;
+  initialHolderCosts: number;
+  currentPrice: number;
   calculatorInfo: BondCalculatorInfo[];
+  accumulatedBond?: number;
 }

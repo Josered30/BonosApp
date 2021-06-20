@@ -1,8 +1,9 @@
 import { Button, Card, CardContent, Divider, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
+import id from "date-fns/esm/locale/id/index.js";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import useForm from "../hooks/useForms";
+import { useAuth } from "../core/contexts/AuthContext";
+import useForm from "../core/hooks/useForms";
 import { LogIn } from "../models/logIn";
 
 
@@ -22,24 +23,32 @@ const useStyles = makeStyles({
     },
 });
 
-function loginValidation(newValues: any, currentValues: any, errors: any, setErrors: (error: any) => void): void {
-    let temp: any = { ...errors };
+function loginValidation(name: string, value: any, currentValues: any): any {
     const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    let temp = {} as any;
 
-    if ("email" in newValues) {
-        temp.email = newValues.email ? "" : "Este campo es requerido";
-        if (newValues.email) {
-            temp.email = emailRegex.test(newValues.email)
-                ? ""
-                : "Correo no valido"
-        }
+    switch (name) {
+        case "email":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (!emailRegex.test(value)) {
+                    temp.format = "Correo no valido";
+                }
+            }
+            break;
+        case "password":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        default:
+            break;
     }
-    if ("password" in newValues) {
-        temp.password = newValues.password ? "" : "Este campo es requerido";
+    if (Object.keys(temp).length > 0) {
+        return temp;
     }
-    setErrors({
-        ...temp
-    });
+    return null;
 }
 
 
@@ -49,7 +58,7 @@ function Login(props: any) {
     const history = useHistory();
     const { authDispatch } = useAuth();
 
-    const { errors, handleChange } = useForm({
+    const { errors, handleChange, showErrors } = useForm({
         initialValues: {
             email: "",
             password: "",
@@ -88,8 +97,8 @@ function Login(props: any) {
                                 name="email"
                                 label="Correo"
                                 onChange={handleChange}
-                                error={(errors.email?.length > 0)}
-                                helperText={errors.email}
+                                error={!!errors.email}
+                                helperText={showErrors("email")}
                                 autoComplete="off"
                             />
                         </Grid>
@@ -102,8 +111,8 @@ function Login(props: any) {
                                 label="Contraseña"
                                 type="password"
                                 onChange={handleChange}
-                                error={(errors.password?.length > 0)}
-                                helperText={errors.password}
+                                error={!!errors.password}
+                                helperText={showErrors("password")}
                                 autoComplete="off"
                             />
                         </Grid>

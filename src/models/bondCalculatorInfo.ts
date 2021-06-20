@@ -1,14 +1,16 @@
+import { GracePeriod } from "./enums/gracePeriod";
+
 export interface BondCalculatorInfo {
-  index?: number;
+  index: number;
   date?: string;
-  gracePeriod?: string;
-  bound?: number;
-  coupon?: number;
+  bond: number;
+  coupon: number;
   fee?: number;
-  amortization?: number;
+  amortization: number;
   prima?: number;
   shield?: number;
-  emmiterFlow?: number;
-  emmiterShieldFlow?: number;
-  holderFlow?: number;
+  emmiterFlow: number;
+  emmiterShieldFlow: number;
+  holderFlow: number;
+  gracePeriod: string;
 }

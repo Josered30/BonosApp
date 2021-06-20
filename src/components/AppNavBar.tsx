@@ -1,9 +1,9 @@
 import { AppBar, Link as StyledLink, makeStyles, Toolbar, Typography, Button, MenuItem, IconButton, Drawer, useTheme, colors } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../core/contexts/AuthContext';
 import LogoIcon from './LogoIcon';
 
 import styles from '../styles/LogoIcon.module.css';
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     header: {
         paddingRight: "79px",
         paddingLeft: "118px",
+        zIndex: theme.zIndex.drawer + 1,
         "@media (max-width: 900px)": {
             paddingLeft: 0,
         },
@@ -245,7 +246,7 @@ function AppNavBar(props: any) {
                 </IconButton>
 
                 <Drawer
-                    classes={{paper: classes.drawer}}
+                    classes={{ paper: classes.drawer }}
                     {...{
                         anchor: "left",
                         open: drawerOpen,

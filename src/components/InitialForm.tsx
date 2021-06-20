@@ -1,10 +1,11 @@
 
-import { Button, Card, CardContent, Grid, makeStyles, useTheme } from "@material-ui/core";
+import { Button, Card, CardContent, Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import Login from "./Login";
 import LogoIcon from "./LogoIcon";
 import Register from "./Register";
-import styles from '../styles/LogoIcon.module.css';
+
+import styles from "../styles/LogoIcon.module.css";
 
 
 
@@ -50,20 +51,23 @@ const useStyles = makeStyles(theme => ({
             flex: 2
         }
     },
-    title: {
+    icon: {
         flex: 2,
-        margin: "2rem",
-        height: "10rem",
-        width: "10rem",
+        padding: "2rem",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        color: theme.palette.secondary.main,
+        "& svg": {
+            height: "5rem",
+            width: "5rem",
+        },
         [theme.breakpoints.down('xs')]: {
-            margin: "0.2rem 1rem 0.2rem 1rem",
+            padding: 0,
+            paddingBottom: "1.5rem"
         }
-    },
-    iconTitle: {
-        textAlign: "center",
-        fontSize: "1.5rem",
-        margin: 0,
-        color: theme.palette.secondary.main
     }
 }));
 
@@ -89,9 +93,10 @@ function InitialForm({ setLogin }: any) {
                         <Grid item xs={12} md={3}>
                             <div className={classes.column}>
 
-                                <LogoIcon className={styles.init} fill={theme.palette.secondary.main}>
-                                    
-                                </LogoIcon>
+                                <div className={classes.icon}>
+                                    <LogoIcon className={styles.init} fill={theme.palette.secondary.main} />
+                                    <Typography variant="h5">Bonos App</Typography>
+                                </div>
 
                                 <div className={classes.buttons}>
                                     <Button className={classes.button} variant="outlined" color="secondary" onClick={() => setOption(0)}>

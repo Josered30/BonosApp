@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useReducer } from "react"
-import { Role } from "../models/enums/role";
+import { Role } from "../../models/enums/role";
 
 
 type Action = {

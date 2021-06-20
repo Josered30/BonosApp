@@ -1,9 +1,9 @@
-import { CircularProgress, makeStyles } from "@material-ui/core";
-import { useSpinner } from "../contexts/SpinnerContext";
+import { CircularProgress, makeStyles, Theme } from "@material-ui/core";
+import { useSpinner } from "../core/contexts/SpinnerContext";
 
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     spinner: {
         position: "fixed",
         zIndex: 9999,

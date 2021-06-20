@@ -4,17 +4,18 @@ import { lazy, Suspense } from 'react';
 import './App.css';
 import InitialForm from './components/InitialForm';
 import { BrowserRouter, Link, Switch, Route, Redirect } from 'react-router-dom';
-import { SpinnerProvider, useSpinner } from './contexts/SpinnerContext';
+import { SpinnerProvider, useSpinner } from './core/contexts/SpinnerContext';
 import { SpinnerDisplay, Spinner } from './components/Spinner';
-import LoginGuard from './guards/LoginGuard';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import LoginGuard from './core/guards/LoginGuard';
+import { AuthProvider, useAuth } from './core/contexts/AuthContext';
 import AppLayout from './layouts/AppLayout';
 import LoginLayout from './layouts/LoginLayout';
-import LogoutGuard from './guards/LogoutGuard';
+import LogoutGuard from './core/guards/LogoutGuard';
 
 const Home = lazy(() => import("./components/Home"));
 const Calculator = lazy(() => import("./components/Calculator"));
 const BuySell = lazy(() => import("./components/BuySell"));
+const Configuration = lazy(() => import('./components/Configuration'));
 
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
 
           <LoginGuard path="/buysell">
             <AppLayout component={BuySell}></AppLayout>
+          </LoginGuard>
+
+          <LoginGuard path="/configuration">
+            <AppLayout component={Configuration}></AppLayout>
           </LoginGuard>
 
         </Switch>

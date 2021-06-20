@@ -7,7 +7,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './styles/theme';
 import { BrowserRouter } from 'react-router-dom';
 import '@fontsource/roboto';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider } from './core/contexts/AuthContext';
 
 ReactDOM.render(
   <React.StrictMode>

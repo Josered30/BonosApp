@@ -1,10 +1,10 @@
 import { Button, Card, CardContent, Container, Divider, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import useForm from "../hooks/useForms";
+import useForm from "../core/hooks/useForms";
 import { EntityType } from "../models/enums/entityType";
 import { LegalPersonRegister } from "../models/legalPersonRegister";
 import { NaturalPersonRegister } from "../models/naturalPersonRegister";
-import { EnumData, getEnumData } from "../utils/enumUtils";
+import { EnumData, getEnumData } from "../core/utils/enumUtils";
 
 
 const useStyles = makeStyles({
@@ -32,89 +32,109 @@ const useStyles = makeStyles({
 });
 
 
-function registerNaturalPersonValidation(newValues: any, currentValues: any, errors: any, setErrors: (error: any) => void): void {
-    let temp: any = { ...errors };
-    const numberRegex: RegExp = /\D+/gm;
+function registerNaturalPersonValidation(name: any, value: any, currentValues: any): any {
+    let temp = {} as any;
+    const nanRegex: RegExp = /\D+/gm;
+    const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-    if ("name" in newValues) {
-        temp.name = newValues.name ? "" : "Este campo es requerido";
+    switch (name) {
+        case "name":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        case "lastName":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        case "dni":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.format = "DNI invalido";
+                }
+            }
+            break;
+
+        case "email":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (!emailRegex.test(value)) {
+                    temp.format = "Correo no valido";
+                }
+            }
+            break;
+        case "password":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        default:
+            break;
     }
 
-    if ("lastName" in newValues) {
-        temp.lastName = newValues.lastName ? "" : "Este campo es requerido";
+    if (Object.keys(temp).length > 0) {
+        return temp;
     }
-
-    if ("dni" in newValues) {
-        temp.dni = newValues.dni ? "" : "Este campo es requerido";
-        if (newValues.dni) {
-            temp.dni = numberRegex.test(newValues.dni) ? "DNI invalido" : "";
-        }
-    }
-
-    if ("email" in newValues) {
-        temp.email = newValues.email ? "" : "Este campo es requerido";
-        if (newValues.email) {
-            temp.email = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(newValues.email)
-                ? ""
-                : "Correo no valido"
-        }
-    }
-    if ("password" in newValues) {
-        temp.password = newValues.password ? "" : "Este campo es requerido";
-        if (newValues.password) {
-            temp.password = newValues.password.length >= 6 ? "" : "Minimo 6 caracteres";
-        }
-    }
-    setErrors({
-        ...temp
-    });
+    return null;
 }
 
 
-function registerLegalPersonValidation(newValues: any, currentValues: any, errors: any, setErrors: (error: any) => void): void {
-    let temp: any = { ...errors };
+function registerLegalPersonValidation(name: any, value: any, currentValues: any): any {
+    let temp = {} as any;
     const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-    const numberRegex: RegExp = /\D+/gm;
+    const nanRegex: RegExp = /\D+/gm;
 
-    if ("bussinessName" in newValues) {
-        temp.bussinessName = newValues.bussinessName ? "" : "Este campo es requerido";
+    switch (name) {
+        case "bussinessName":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        case "registerYear":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if ((nanRegex.test(value) || (value < 1800 || value >= 9999))) {
+                    temp.date = "Fecha invalida";
+                }
+            }
+            break;
+        case "email":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (!emailRegex.test(value)) {
+                    temp.format = "Correo no valido";
+                }
+            }
+            break;
+        case "password":
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            }
+            break;
+        case "ruc":
+            if (!value && currentValues.entityType === EntityType.Empresa) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.format = "RUC no valida";
+                }
+            }
+            break;
+        default:
+            break;
     }
 
-    if ("registerYear" in newValues) {
-        temp.registerYear = newValues.registerYear ? "" : "Este campo es requerido";
-        if (newValues.registerYear) {
-            temp.registerYear = (numberRegex.test(newValues.registerYear) || (newValues.registerYear < 1800 || newValues.registerYear >= 9999)) ? "Fecha invalida" : "";
-        }
+    if (Object.keys(temp).length > 0) {
+        return temp;
     }
+    return null;
 
-    if ("email" in newValues) {
-        temp.email = newValues.email ? "" : "Este campo es requerido";
-        if (newValues.email) {
-            temp.email = emailRegex.test(newValues.email) ? "" : "Correo no valido"
-        }
-    }
-
-    if ("entityType" in newValues) {
-        temp.entityType = newValues.entityType !== EntityType.Vacio ? "" : "Entidad no valida"
-    }
-
-    if ("password" in newValues) {
-        temp.password = newValues.password ? "" : "Este campo es requerido";
-        if (newValues.password) {
-            temp.password = newValues.password.length >= 6 ? "" : "Minimo 6 caracteres";
-        }
-    }
-
-    if ("ruc" in newValues && currentValues.entityType === EntityType.Empresa) {
-        temp.ruc = newValues.ruc ? "" : "Este campo es requerido";
-        if (newValues.ruc) {
-            temp.ruc = numberRegex.test(newValues.ruc) ? "RUC invalida" : "";
-        }
-    }
-
-    setErrors({
-        ...temp
-    });
 }
 
 
@@ -149,9 +169,7 @@ function RegisterOptions({ setOption }: any) {
 
 
 function RegisterNaturalPerson() {
-
-
-    const { errors, handleChange } = useForm({
+    const { errors, handleChange, showErrors } = useForm({
         initialValues: {
             name: "",
             lastName: "",
@@ -159,7 +177,7 @@ function RegisterNaturalPerson() {
             email: "",
             password: "",
         },
-        validationFunction: registerLegalPersonValidation
+        validationFunction: registerNaturalPersonValidation
     });
 
     const classes = useStyles();
@@ -184,8 +202,8 @@ function RegisterNaturalPerson() {
                         name="name"
                         label="Nombre"
                         onChange={handleChange}
-                        error={(errors.name?.length > 0)}
-                        helperText={errors.name}
+                        error={!!errors.name}
+                        helperText={showErrors("name")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -197,8 +215,8 @@ function RegisterNaturalPerson() {
                         name="lastName"
                         label="Apellidos"
                         onChange={handleChange}
-                        error={(errors.lastName?.length > 0)}
-                        helperText={errors.lastName}
+                        error={!!errors.lastName}
+                        helperText={showErrors("lastName")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -210,8 +228,8 @@ function RegisterNaturalPerson() {
                         name="dni"
                         label="DNI"
                         onChange={handleChange}
-                        error={(errors.dni?.length > 0)}
-                        helperText={errors.dni}
+                        error={(!!errors.dni)}
+                        helperText={showErrors("dni")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -223,8 +241,8 @@ function RegisterNaturalPerson() {
                         name="email"
                         label="Correo"
                         onChange={handleChange}
-                        error={(errors.email?.length > 0)}
-                        helperText={errors.email}
+                        error={!!errors.email}
+                        helperText={showErrors("email")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -238,8 +256,8 @@ function RegisterNaturalPerson() {
                         label="Contraseña"
                         type="password"
                         onChange={handleChange}
-                        error={(errors.password?.length > 0)}
-                        helperText={errors.password}
+                        error={!!errors.password}
+                        helperText={showErrors("password")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -262,7 +280,7 @@ const entityTypes: EnumData[] = getEnumData(EntityType);
 
 function RegisterLegalPerson() {
 
-    const { values, errors, handleChange } = useForm({
+    const { values, errors, handleChange, showErrors } = useForm({
         initialValues: {
             bussinessName: "",
             registerYear: 0,
@@ -295,8 +313,8 @@ function RegisterLegalPerson() {
                         name="bussinessName"
                         label="Razon social"
                         onChange={handleChange}
-                        error={(errors.bussinessName?.length > 0)}
-                        helperText={errors.bussinessName}
+                        error={!!errors.bussinessName}
+                        helperText={showErrors("bussinessName")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -308,8 +326,8 @@ function RegisterLegalPerson() {
                         name="registerYear"
                         label="Año de registro"
                         onChange={handleChange}
-                        error={(errors.registerYear?.length > 0)}
-                        helperText={errors.registerYear}
+                        error={!!errors.registerYear}
+                        helperText={showErrors("registerYear")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -317,7 +335,6 @@ function RegisterLegalPerson() {
                 <Grid item xs={12} md={6} >
                     <FormControl
                         className={classes.formControl}
-                        error={(errors.entityType?.length > 0)}
                     >
                         <InputLabel id="entityTypeLabel">Tipo de entidad</InputLabel>
                         <Select
@@ -329,14 +346,11 @@ function RegisterLegalPerson() {
                         >
                             {entityTypes.map(e => {
                                 return (
-                                    <MenuItem value={e.value}>{e.label}</MenuItem>
+                                    <MenuItem key={e.value} value={e.value}>{e.label}</MenuItem>
                                 );
                             })}
                         </Select>
-                        <FormHelperText>{errors.entityType}</FormHelperText>
                     </FormControl>
-
-
                 </Grid>
 
 
@@ -347,8 +361,8 @@ function RegisterLegalPerson() {
                         name="ruc"
                         label="RUC"
                         onChange={handleChange}
-                        error={(errors.ruc?.length > 0)}
-                        helperText={errors.ruc}
+                        error={!!errors.ruc}
+                        helperText={showErrors("ruc")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -360,8 +374,8 @@ function RegisterLegalPerson() {
                         name="email"
                         label="Correo"
                         onChange={handleChange}
-                        error={(errors.email?.length > 0)}
-                        helperText={errors.email}
+                        error={!!errors.email}
+                        helperText={showErrors("email")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -374,8 +388,8 @@ function RegisterLegalPerson() {
                         label="Contraseña"
                         type="password"
                         onChange={handleChange}
-                        error={(errors.password?.length > 0)}
-                        helperText={errors.password}
+                        error={!!errors.password}
+                        helperText={showErrors("password")}
                         autoComplete="off"
                     />
                 </Grid>

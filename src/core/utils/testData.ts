@@ -1,4 +1,4 @@
-import { BondSummary } from "../models/bondSummary";
+import { BondSummary } from "../../models/bondSummary";
 
 const testData: BondSummary[] = [
   {
