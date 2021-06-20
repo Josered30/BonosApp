@@ -1,4 +1,4 @@
-export enum EntityType {
+export enum Entity {
   Empresa,
   institucion,
 }

@@ -1,9 +1,7 @@
 import { Button, Card, CardContent, Container, Divider, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import useForm from "../core/hooks/useForms";
-import { EntityType } from "../models/enums/entityType";
-import { LegalPersonRegister } from "../models/legalPersonRegister";
-import { NaturalPersonRegister } from "../models/naturalPersonRegister";
+import { Entity } from "../core/models/enums/entity";
 import { EnumData, getEnumData } from "../core/utils/enumUtils";
 
 
@@ -118,7 +116,7 @@ function registerLegalPersonValidation(name: any, value: any, currentValues: any
             }
             break;
         case "ruc":
-            if (!value && currentValues.entityType === EntityType.Empresa) {
+            if (!value && currentValues.Entity === Entity.Empresa) {
                 temp.required = "Este campo es requerido";
             } else {
                 if (nanRegex.test(value)) {
@@ -276,7 +274,7 @@ function RegisterNaturalPerson() {
 
 
 
-const entityTypes: EnumData[] = getEnumData(EntityType);
+const entityTypes: EnumData[] = getEnumData(Entity);
 
 function RegisterLegalPerson() {
 
@@ -284,7 +282,7 @@ function RegisterLegalPerson() {
         initialValues: {
             bussinessName: "",
             registerYear: 0,
-            entityType: 0,
+            Entity: 0,
             email: "",
             password: "",
             ruc: "",
@@ -339,9 +337,9 @@ function RegisterLegalPerson() {
                         <InputLabel id="entityTypeLabel">Tipo de entidad</InputLabel>
                         <Select
                             labelId="entityTypeLabel"
-                            id="entityType"
-                            name="entityType"
-                            value={values.entityType}
+                            id="Entity"
+                            name="Entity"
+                            value={values.Entity}
                             onChange={handleChange}
                         >
                             {entityTypes.map(e => {

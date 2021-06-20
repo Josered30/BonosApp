@@ -1,5 +1,4 @@
 import { useState } from "react";
-import InitialForm from "../../components/InitialForm";
 
 interface FormData<T> {
   initialValues: T;

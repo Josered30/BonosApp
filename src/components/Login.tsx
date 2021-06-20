@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../core/contexts/AuthContext";
 import useForm from "../core/hooks/useForms";
-import { LogIn } from "../models/logIn";
+import { LogIn } from "../core/models/logIn";
 
 
 const useStyles = makeStyles({

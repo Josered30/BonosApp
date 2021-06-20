@@ -1,9 +1,9 @@
-import { EntityType } from "./enums/entityType";
+import { Entity } from "./enums/entity";
 
 export interface LegalPersonRegister {
     bussinessName: string;
     registerYear: number;
-    entityType: EntityType;
+    entityType: Entity;
     email: string;
     password: string;
     ruc: string;

@@ -1,11 +1,11 @@
 import { npv, pmt } from "financial";
-import { BondCalculatorInfo } from "../../models/bondCalculatorInfo";
-import { BondCalculatorInput } from "../../models/bondCalculatorInput";
-import { BondCalculatorOutput } from "../../models/bondCalculatorOutput";
-import { Frequency } from "../../models/enums/frequency";
-import { GracePeriod } from "../../models/enums/gracePeriod";
-import { PaymentMethod } from "../../models/enums/paymentMethod";
-import { Rate } from "../../models/enums/rate";
+import { BondCalculatorInfo } from "../models/bondCalculatorInfo";
+import { BondCalculatorInput } from "../models/bondCalculatorInput";
+import { BondCalculatorOutput } from "../models/bondCalculatorOutput";
+import { Frequency } from "../models/enums/frequency";
+import { GracePeriod } from "../models/enums/gracePeriod";
+import { PaymentMethod } from "../models/enums/paymentMethod";
+import { Rate } from "../models/enums/rate";
 
 export function calculateData(data: BondCalculatorInput): BondCalculatorOutput {
   let output = {} as BondCalculatorOutput;
@@ -33,8 +33,8 @@ export function calculateData(data: BondCalculatorInput): BondCalculatorOutput {
       1 + output.annualEfectiveRate,
       couponFrequency / data.daysPerYear
     ) - 1;
+  output.couponEfectiveRate = parseFloat(output.couponEfectiveRate.toFixed(2));
 
-  console.log(couponFrequency);
   output.couponCok =
     Math.pow(1 + data.annualDiscountRate, couponFrequency / data.daysPerYear) -
     1;

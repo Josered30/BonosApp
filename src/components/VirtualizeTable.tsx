@@ -2,7 +2,7 @@ import { createStyles, TableCell, Theme, WithStyles, withStyles } from "@materia
 import clsx from "clsx";
 import React from "react";
 import { AutoSizer, Column, TableCellRenderer, TableHeaderProps, Table } from "react-virtualized";
-import { ColumnData, Row } from "../models/virtualizeTableModel";
+import { ColumnData, Row } from "../core/models/virtualizeTableModel";
 
 const styles = (theme: Theme) =>
     createStyles({

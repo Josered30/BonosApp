@@ -5,13 +5,13 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/picker
 import clsx from "clsx";
 import { Fragment, useEffect, useState } from "react";
 import useForm from "../core/hooks/useForms";
-import { BondCalculatorInput } from "../models/bondCalculatorInput";
-import { BondCalculatorOutput } from "../models/bondCalculatorOutput";
-import { Frequency } from "../models/enums/frequency";
-import { GracePeriod } from "../models/enums/gracePeriod";
-import { PaymentMethod } from "../models/enums/paymentMethod";
-import { Rate } from "../models/enums/rate";
-import { ColumnData } from "../models/virtualizeTableModel";
+import { BondCalculatorInput } from "../core/models/bondCalculatorInput";
+import { BondCalculatorOutput } from "../core/models/bondCalculatorOutput";
+import { Frequency } from "../core/models/enums/frequency";
+import { GracePeriod } from "../core/models/enums/gracePeriod";
+import { PaymentMethod } from "../core/models/enums/paymentMethod";
+import { Rate } from "../core/models/enums/rate";
+import { ColumnData } from "../core/models/virtualizeTableModel";
 import { calculateData } from "../core/services/calculatorService";
 import { EnumData, getEnumData } from "../core/utils/enumUtils";
 import VirtualizedTable from "./VirtualizeTable";
@@ -681,7 +681,7 @@ function Calculator() {
                                 disabled
                                 id="capitalizationDaysOuput"
                                 name="capitalizationDaysOuput"
-                                label="Dias capitulacion"
+                                label="Dias de capitalizacion"
                                 value={outputData.capitalization}
                             />
                         </Grid>

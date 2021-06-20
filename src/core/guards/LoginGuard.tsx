@@ -1,6 +1,4 @@
-import React, { Suspense } from 'react';
 import { Route, Redirect } from "react-router-dom";
-import { Spinner } from '../../components/Spinner';
 import { useAuth } from '../contexts/AuthContext';
 
 function LoginGuard(props: any) {
