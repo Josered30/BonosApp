@@ -7,11 +7,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     image: {
         width: "13rem",
         height: "13rem",
-        "& img": {
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-        }
     },
     imgContainer: {
         margin: "2rem",
@@ -25,9 +20,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
+interface ImageUploaderProps {
+    defaultImage: string;
+    radious: number;
+    handleUpload?: (file: File) => void;
+    className: string;
+    width: string;
+    height: string;
+}
+
 function ImageUploader(props: any) {
 
-    const { defaultImage, radious, handleUpload, className }: any = props;
+    const { defaultImage, radious, handleUpload, className, width, height }: ImageUploaderProps = props;
     const classes = useStyles();
 
     const uploadedImage = useRef<any>(null);
@@ -64,10 +68,21 @@ function ImageUploader(props: any) {
                     display: "none"
                 }}
             />
-            <div className={classes.image} onClick={() => imageUploader.current.click()}>
-                <img ref={uploadedImage} style={{
-                    borderRadius: radious
-                }} src={defaultImage} alt="Imagen"  />
+            <div
+                style={{
+                    width: width,
+                    height: height,
+                }}
+                onClick={() => imageUploader.current.click()}>
+                <img
+                    className={classes.image}
+                    ref={uploadedImage}
+                    style={{
+                        borderRadius: radious,
+                    }}
+                    src={defaultImage}
+                    alt="Imagen"
+                />
             </div>
         </div>
     );

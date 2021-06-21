@@ -1,10 +1,7 @@
-import { Button, Card, CardContent, Divider, Grid, makeStyles, TextField, Typography } from "@material-ui/core";
-import id from "date-fns/esm/locale/id/index.js";
-import React, { useState } from "react";
+import { Button, Card, CardContent,  Grid, makeStyles, TextField, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../core/contexts/AuthContext";
 import useForm from "../core/hooks/useForms";
-import { LogIn } from "../core/models/logIn";
 
 
 const useStyles = makeStyles({

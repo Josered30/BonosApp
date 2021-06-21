@@ -3,11 +3,10 @@ import { lazy, Suspense } from 'react';
 
 import './App.css';
 import InitialForm from './components/InitialForm';
-import { BrowserRouter, Link, Switch, Route, Redirect } from 'react-router-dom';
-import { SpinnerProvider, useSpinner } from './core/contexts/SpinnerContext';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { SpinnerProvider } from './core/contexts/SpinnerContext';
 import { SpinnerDisplay, Spinner } from './components/Spinner';
 import LoginGuard from './core/guards/LoginGuard';
-import { AuthProvider, useAuth } from './core/contexts/AuthContext';
 import AppLayout from './layouts/AppLayout';
 import LoginLayout from './layouts/LoginLayout';
 import LogoutGuard from './core/guards/LogoutGuard';

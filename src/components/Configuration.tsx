@@ -1,5 +1,5 @@
-import { Button, Drawer, Grid, makeStyles, Paper, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
-import { Fragment, useRef } from "react";
+import { Button, makeStyles, Paper, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { Fragment } from "react";
 import ImageUploader from "./ImageUploader";
 
 const drawerWidth = 240;
@@ -60,7 +60,13 @@ function NaturalPersonConfig(props: any) {
     return (
         <div className={classes.configContent}>
             <div className={classes.content}>
-                <ImageUploader className={classes.imageContent} radious="50%" defaultImage="/images/profile.svg" />
+                <ImageUploader
+                    className={classes.imageContent}
+                    radious="50%"
+                    width="13rem"
+                    height="13rem"
+                    defaultImage="/images/profile.svg"
+                />
                 <TextField
                     id="name"
                     name="name"

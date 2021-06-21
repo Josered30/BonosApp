@@ -12,6 +12,8 @@ export function calculateData(data: BondCalculatorInput): BondCalculatorOutput {
   console.log(data);
 
   const couponFrequency = frequencyToDay(data.couponFrequency);
+  console.log(couponFrequency);
+
   const capitalization = frequencyToDay(data.capitalization);
 
   output.couponFrequency = couponFrequency;
@@ -63,7 +65,9 @@ export function calculateData(data: BondCalculatorInput): BondCalculatorOutput {
       break;
   }
 
-  const flows = output.calculatorInfo.slice(1).map((v) => v.holderFlow);
+  let flows = output.calculatorInfo.slice(1).map((v) => v.holderFlow);
+  flows.splice(0,0,0);
+
   output.currentPrice = npv(output.couponCok, flows);
   return output;
 }

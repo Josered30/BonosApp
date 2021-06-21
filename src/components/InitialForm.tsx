@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         flex: 2,
-        padding: "2rem",
+        margin: "2rem",
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -65,8 +65,7 @@ const useStyles = makeStyles(theme => ({
             width: "5rem",
         },
         [theme.breakpoints.down('xs')]: {
-            padding: 0,
-            paddingBottom: "1.5rem"
+            margin: "0rem 0rem 2rem 0rem"
         }
     }
 }));

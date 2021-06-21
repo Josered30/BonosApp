@@ -1,13 +1,10 @@
 import { AppBar, Link as StyledLink, makeStyles, Toolbar, Typography, Button, MenuItem, IconButton, Drawer, useTheme, colors } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth } from '../core/contexts/AuthContext';
 import LogoIcon from './LogoIcon';
-
-import styles from '../styles/LogoIcon.module.css';
-
 
 
 const headersData = [
@@ -74,12 +71,14 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
     },
     icon: {
+        margin: "0.5rem 1rem",
         height: "3rem",
         width: "3rem",
-        margin: "0.2rem 1rem 0.2rem 1rem",
-        fill: theme.palette.secondary.main,
+        cursor: "pointer",  
         [theme.breakpoints.down('xs')]: {
-            margin: "0.5rem 1rem 0.5rem 1rem",
+            height: "2rem",
+            width: "2rem",
+            margin: "0.2rem 1rem 0.2rem 1rem",
         }
     },
 
@@ -109,9 +108,7 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none"
     },
 
-
 }));
-
 
 
 
@@ -123,10 +120,11 @@ function AppNavBar(props: any) {
     });
 
     const { mobileView, drawerOpen } = state;
-
     const { authDispatch } = useAuth();
-
     const theme = useTheme();
+    const history = useHistory();
+    const classes = useStyles();
+
 
     useEffect(() => {
         const setResponsiveness = () => {
@@ -143,13 +141,17 @@ function AppNavBar(props: any) {
         }
     }, []);
 
-    const classes = useStyles();
+
+    const toHome = (event: any) => {
+        history.push('/');
+    }
 
     const logo = (
         <div className={classes.title}>
             <LogoIcon
-                className={styles.appBar}
+                className={classes.icon}
                 fill={theme.palette.secondary.main}
+                onClick={toHome}
             >
             </LogoIcon>
 

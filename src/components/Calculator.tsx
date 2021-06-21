@@ -1,5 +1,5 @@
 import DateFnsUtils from "@date-io/date-fns";
-import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, FormHelperText, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { ExpandMoreRounded } from "@material-ui/icons";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import clsx from "clsx";
@@ -217,7 +217,7 @@ function Calculator() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
-    const { values, errors, handleChange, showErrors, onBlurValidation } = useForm<BondCalculatorInput>({
+    const { values, errors, handleChange, showErrors, onBlurValidation } = useForm<any>({
         initialValues: {
             emmitionDate: new Date(),
             paymentMethod: PaymentMethod.Aleman,
@@ -237,7 +237,7 @@ function Calculator() {
             colocacion: 0,
             estructuracion: 0,
             interestRateType: Rate.Efectiva
-        } as BondCalculatorInput,
+        },
         //validationFunction: calculatorInputValidation
     });
 
@@ -282,17 +282,17 @@ function Calculator() {
                 couponFrequency: values.couponFrequency,
                 gracePeriod: values.gracePeriod,
                 daysPerYear: values.daysPerYear,
-                nominalValue: parseFloat(values.nominalValue.toString()),
-                commercialValue: parseFloat(values.commercialValue.toString()),
-                years: parseInt(values.years.toString()),
-                interestRate: parseFloat(values.interestRate.toString()),
-                annualDiscountRate: parseFloat(values.annualDiscountRate.toString()),
-                incomeTax: parseFloat(values.incomeTax.toString()),
-                prima: parseFloat(values.prima.toString()),
-                flotacion: parseFloat(values.flotacion.toString()),
-                cavali: parseFloat(values.cavali.toString()),
-                colocacion: parseFloat(values.colocacion.toString()),
-                estructuracion: parseFloat(values.estructuracion.toString()),
+                nominalValue: parseFloat(values.nominalValue),
+                commercialValue: parseFloat(values.commercialValue),
+                years: parseInt(values.years),
+                interestRate: parseFloat(values.interestRate),
+                annualDiscountRate: parseFloat(values.annualDiscountRate),
+                incomeTax: parseFloat(values.incomeTax),
+                prima: parseFloat(values.prima),
+                flotacion: parseFloat(values.flotacion),
+                cavali: parseFloat(values.cavali),
+                colocacion: parseFloat(values.colocacion),
+                estructuracion: parseFloat(values.estructuracion),
                 interestRateType: values.interestRateType
             } as BondCalculatorInput));
             setInputExpanded(!inputExpanded);
