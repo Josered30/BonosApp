@@ -52,5 +52,12 @@ export default function useForm<G>({
     return temp;
   };
 
-  return { values, errors, handleChange, onBlurValidation, showErrors };
+  return {
+    values,
+    errors,
+    handleChange,
+    onBlurValidation,
+    showErrors,
+    setValues,
+  };
 }

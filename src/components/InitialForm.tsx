@@ -5,10 +5,6 @@ import Login from "./Login";
 import LogoIcon from "./LogoIcon";
 import Register from "./Register";
 
-import styles from "../styles/LogoIcon.module.css";
-
-
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,6 +17,7 @@ const useStyles = makeStyles(theme => ({
         overflow: "hidden"
     },
     card: {
+        //width: "max(50%,50rem)",
         minWidth: "50%",
         maxWidth: "50rem",
         backgroundColor: "#303030",
@@ -53,7 +50,6 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         flex: 2,
-        margin: "2rem",
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -66,6 +62,14 @@ const useStyles = makeStyles(theme => ({
         },
         [theme.breakpoints.down('xs')]: {
             margin: "0rem 0rem 2rem 0rem"
+        }
+    },
+    iconSvg: {
+        margin: "0.5rem",
+        [theme.breakpoints.down('xs')]: {
+            margin: "2rem",
+            height: "5rem",
+            width: "5rem",
         }
     }
 }));
@@ -93,7 +97,7 @@ function InitialForm({ setLogin }: any) {
                             <div className={classes.column}>
 
                                 <div className={classes.icon}>
-                                    <LogoIcon className={styles.init} fill={theme.palette.secondary.main} />
+                                    <LogoIcon className={classes.iconSvg} fill={theme.palette.secondary.main} />
                                     <Typography variant="h5">Bonos App</Typography>
                                 </div>
 

@@ -21,7 +21,7 @@ const headersData = [
         href: "/buysell",
     },
     {
-        label: "Configuracion",
+        label: "Perfil",
         href: "/configuration",
     },
 ];

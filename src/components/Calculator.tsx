@@ -3,7 +3,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, Gri
 import { ExpandMoreRounded } from "@material-ui/icons";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import clsx from "clsx";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import useForm from "../core/hooks/useForms";
 import { BondCalculatorInput } from "../core/models/bondCalculatorInput";
 import { BondCalculatorOutput } from "../core/models/bondCalculatorOutput";
@@ -275,7 +275,8 @@ function Calculator() {
 
     const calculate = () => {
         if (values.years > 0) {
-            setOutputData(calculateData({
+
+            let output = calculateData({
                 emmitionDate: values.emmitionDate,
                 paymentMethod: values.paymentMethod,
                 capitalization: values.capitalization,
@@ -285,22 +286,28 @@ function Calculator() {
                 nominalValue: parseFloat(values.nominalValue),
                 commercialValue: parseFloat(values.commercialValue),
                 years: parseInt(values.years),
-                interestRate: parseFloat(values.interestRate),
-                annualDiscountRate: parseFloat(values.annualDiscountRate),
-                incomeTax: parseFloat(values.incomeTax),
-                prima: parseFloat(values.prima),
-                flotacion: parseFloat(values.flotacion),
-                cavali: parseFloat(values.cavali),
-                colocacion: parseFloat(values.colocacion),
-                estructuracion: parseFloat(values.estructuracion),
+                interestRate: parseFloat(values.interestRate)/100,
+                annualDiscountRate: parseFloat(values.annualDiscountRate)/100,
+                incomeTax: parseFloat(values.incomeTax)/100,
+                prima: parseFloat(values.prima)/100,
+                flotacion: parseFloat(values.flotacion)/100,
+                cavali: parseFloat(values.cavali)/100,
+                colocacion: parseFloat(values.colocacion)/100,
+                estructuracion: parseFloat(values.estructuracion)/100,
                 interestRateType: values.interestRateType
-            } as BondCalculatorInput));
+            } as BondCalculatorInput);
+
+            output.couponCok = output.couponCok*100;
+            output.annualEfectiveRate = output.annualEfectiveRate*100;
+            output.couponEfectiveRate = output.couponEfectiveRate*100;
+
+            setOutputData(output);
             setInputExpanded(!inputExpanded);
             setOutputExpanded(true);
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         setTableClass(clsx(classes.table, outputExpanded && classes.tableFill));
     }, [outputExpanded]);
 
@@ -468,7 +475,7 @@ function Calculator() {
                                 fullWidth
                                 id="interestRate"
                                 name="interestRate"
-                                label="Tasa de interes"
+                                label="Tasa de interes %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.interestRate}
@@ -484,7 +491,7 @@ function Calculator() {
                                 fullWidth
                                 id="annualDiscountRate"
                                 name="annualDiscountRate"
-                                label="Tasa anual de descuento"
+                                label="Tasa anual de descuento %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.annualDiscountRate}
@@ -500,7 +507,7 @@ function Calculator() {
                                 fullWidth
                                 id="incomeTax"
                                 name="incomeTax"
-                                label="Impuesto a la renta"
+                                label="Impuesto a la renta %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.incomeTax}
@@ -537,7 +544,7 @@ function Calculator() {
                                 fullWidth
                                 id="prima"
                                 name="prima"
-                                label="Prima"
+                                label="Prima %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.prima}
@@ -553,7 +560,7 @@ function Calculator() {
                                 fullWidth
                                 id="flotacion"
                                 name="flotacion"
-                                label="Flotacion"
+                                label="Flotacion %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.flotacion}
@@ -569,7 +576,7 @@ function Calculator() {
                                 fullWidth
                                 id="cavali"
                                 name="cavali"
-                                label="Cavali"
+                                label="Cavali %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.cavali}
@@ -601,7 +608,7 @@ function Calculator() {
                                 fullWidth
                                 id="colocacion"
                                 name="colocacion"
-                                label="Colocacion"
+                                label="Colocacion %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.colocacion}
@@ -617,7 +624,7 @@ function Calculator() {
                                 fullWidth
                                 id="estructuracion"
                                 name="estructuracion"
-                                label="Estructuracion"
+                                label="Estructuracion %"
                                 onChange={handleChange}
                                 onBlur={onBlurValidation}
                                 value={values.estructuracion}
@@ -705,7 +712,7 @@ function Calculator() {
                                 disabled
                                 id="annualEffectiveRateOutput"
                                 name="annualEffectiveRateOuput"
-                                label="Tasa efectiva anual"
+                                label="Tasa efectiva anual %"
                                 value={outputData.annualEfectiveRate}
                             />
                         </Grid>
@@ -716,7 +723,7 @@ function Calculator() {
                                 disabled
                                 id="cokOutput"
                                 name="cokOuput"
-                                label="COK"
+                                label="COK %"
                                 value={outputData.couponCok}
 
                             />
@@ -739,7 +746,7 @@ function Calculator() {
                                 disabled
                                 id="initialHolderCostsOutput"
                                 name="initialHolderCostsOuput"
-                                label="Costos iniciales del bonista"
+                                label="Costos iniciales del bonista %"
                                 value={outputData.initialHolderCosts}
                             />
                         </Grid>

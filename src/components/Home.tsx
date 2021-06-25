@@ -82,11 +82,11 @@ function DataTable({ title, data, headers, ...rest }: any) {
     if (!matches) {
         return (
             <div className={classes.tableWrapper}>
-                <div className={classes.tableLabel}>
-                    <Typography variant="h6">
-                        {title}
-                    </Typography>
-                </div>
+
+                <Typography className={classes.tableLabel} variant="h6">
+                    {title}
+                </Typography>
+
                 <Paper className={classes.table}>
                     <VirtualizedTable
                         rowCount={data.length}
