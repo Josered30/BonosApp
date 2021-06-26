@@ -1,12 +1,20 @@
-FROM node:14.1-alpine AS build
+# pull official base image
+FROM node:13.12.0-alpine
 
+# set working directory
 WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+ENV CHOKIDAR_USEPOLLING=true
+
+
+# install app dependencies
 COPY package*.json ./
 RUN npm install
-COPY . .
-RUN npm run build
 
-FROM nginx:1.19-alpine as production-stage
-COPY --from=build /app/build /usr/share/nginx/html
-COPY default.conf.template /etc/nginx/conf.d/default.conf.template
-CMD /bin/sh -c "envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
+# add app
+COPY . ./
+
+# start app
+CMD ["npm", "start"]
