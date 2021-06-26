@@ -80,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 function validateNaturalPersonForm(name: any, value: any, currentValues: any): any {
-
     let temp: any = {};
 
     switch (name) {
@@ -108,7 +107,6 @@ function validateNaturalPersonForm(name: any, value: any, currentValues: any): a
         default:
             break;
     }
-
 
 
     if (Object.keys(temp).length > 0) {
