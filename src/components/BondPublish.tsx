@@ -47,10 +47,7 @@ function BondPublish(props: any) {
         <Fragment>
             <Paper className={classes.paper}>
                 <Typography className={classes.title} variant={!matches ? "h4" : "h5"}> Bono: {data.bondPublication?.name}</Typography>
-
-
                 <Divider />
-
                 <div className={classes.subContent}>
                     <Typography className={classes.title} variant="h5">Datos del Emisor</Typography>
 
