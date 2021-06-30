@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "config-overrides.js"],
-  "files": ["declarations.d.ts"]
+  "include": ["src", "config-overrides.js"]
+  //"files": ["declarations.d.ts"]
 }

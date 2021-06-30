@@ -15,12 +15,12 @@ const Home = lazy(() => import("./components/Home"));
 const Calculator = lazy(() => import("./components/Calculator"));
 const BuySell = lazy(() => import("./components/BuySell"));
 const Configuration = lazy(() => import('./components/Configuration'));
-
+const BondPublication = lazy(() => import('./components/BondPublish'));
 
 function App() {
 
   return (
-    <Suspense fallback={<Spinner></Spinner>}>
+    <Suspense fallback={<Spinner />}>
       <SpinnerProvider>
         <Switch>
           <Route exact path="/">
@@ -46,6 +46,12 @@ function App() {
           <LoginGuard path="/configuration">
             <AppLayout component={Configuration}></AppLayout>
           </LoginGuard>
+
+
+          <LoginGuard path={'/bondPublication/:bondPublicationId'}>
+            <AppLayout component={BondPublication}></AppLayout>
+          </LoginGuard>
+
 
         </Switch>
         <SpinnerDisplay />

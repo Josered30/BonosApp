@@ -2,7 +2,7 @@
 import { Button, Card, CardContent, Grid, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import Login from "./Login";
-import LogoIcon from "./LogoIcon";
+import { ReactComponent as LogoIcon } from "../icons/logo.svg";
 import Register from "./Register";
 
 
@@ -66,6 +66,7 @@ const useStyles = makeStyles(theme => ({
     },
     iconSvg: {
         margin: "0.5rem",
+        fill: theme.palette.secondary.main,
         [theme.breakpoints.down('xs')]: {
             margin: "2rem",
             height: "5rem",
@@ -97,7 +98,7 @@ function InitialForm({ setLogin }: any) {
                             <div className={classes.column}>
 
                                 <div className={classes.icon}>
-                                    <LogoIcon className={classes.iconSvg} fill={theme.palette.secondary.main} />
+                                    <LogoIcon className={classes.iconSvg}/>
                                     <Typography variant="h5">Bonos App</Typography>
                                 </div>
 

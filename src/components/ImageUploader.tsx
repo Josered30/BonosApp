@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { useRef } from "react";
 
 
+
 const useStyles = makeStyles((theme: Theme) => ({
     image: {
         width: "13rem",
@@ -73,7 +74,7 @@ function ImageUploader(props: any) {
                     width: width,
                     height: height,
                 }}
-                onClick={() => imageUploader.current.click()}>
+                onClick={() => imageUploader.current.click()}>        
                 <img
                     className={classes.image}
                     ref={uploadedImage}

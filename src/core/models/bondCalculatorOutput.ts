@@ -1,6 +1,4 @@
 import { BondCalculatorInfo } from "./bondCalculatorInfo";
-import { Frequency } from "./enums/frequency";
-
 
 export interface BondCalculatorOutput {
   couponFrequency: number;
@@ -15,4 +13,6 @@ export interface BondCalculatorOutput {
   currentPrice: number;
   calculatorInfo: BondCalculatorInfo[];
   accumulatedBond?: number;
+  tir?: number;
+  modifiedDuration?: number;
 }

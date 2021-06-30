@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import { useAuth } from '../core/contexts/AuthContext';
-import LogoIcon from './LogoIcon';
+import { ReactComponent as LogoIcon } from '../icons/logo.svg';
 
 
 const headersData = [
@@ -74,7 +74,8 @@ const useStyles = makeStyles((theme) => ({
         margin: "0.5rem 1rem",
         height: "3rem",
         width: "3rem",
-        cursor: "pointer",  
+        cursor: "pointer",
+        fill: theme.palette.secondary.main,
         [theme.breakpoints.down('xs')]: {
             height: "2rem",
             width: "2rem",
@@ -148,13 +149,7 @@ function AppNavBar(props: any) {
 
     const logo = (
         <div className={classes.title}>
-            <LogoIcon
-                className={classes.icon}
-                fill={theme.palette.secondary.main}
-                onClick={toHome}
-            >
-            </LogoIcon>
-
+            <LogoIcon className={classes.icon} onClick={toHome}/>
             <Typography className={classes.titleText} variant="h6" component="h1">
                 Bonos App
             </Typography>
