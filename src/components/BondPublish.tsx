@@ -51,6 +51,10 @@ function BondPublish(props: any) {
                 <div className={classes.subContent}>
                     <Typography className={classes.title} variant="h5">Datos del Emisor</Typography>
 
+                    <div>
+                        
+                    </div>
+
 
                 </div>
 
