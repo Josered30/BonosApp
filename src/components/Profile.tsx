@@ -256,6 +256,7 @@ function LegalPersonConfig(props: any) {
         setDisable(true);
     }
     
+    
     return (
         <div className={classes.configContent}>
             <div className={classes.content}>
