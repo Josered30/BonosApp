@@ -241,11 +241,8 @@ function NaturalPersonConfig(props: any) {
 
 
 function LegalPersonConfig(props: any) {
-
-
     const classes = useStyles();
     const [disable, setDisable] = useState(true);
-
 
     const { values, errors, handleChange, showErrors } = useForms({
         initialValues: {
@@ -258,7 +255,7 @@ function LegalPersonConfig(props: any) {
     const saveChanges = (event: any) => {
         setDisable(true);
     }
-
+    
     return (
         <div className={classes.configContent}>
             <div className={classes.content}>
