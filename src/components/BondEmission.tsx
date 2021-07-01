@@ -566,7 +566,7 @@ function BondEmmision(props: any) {
                                 fullWidth
                                 id="expectedRate"
                                 name="expectedRate"
-                                label="Interes esperado"
+                                label="Interes esperado %"
                                 onChange={infoForm.handleChange}
                                 onBlur={infoForm.onBlurValidation}
                                 value={infoForm.values.expectedRate}

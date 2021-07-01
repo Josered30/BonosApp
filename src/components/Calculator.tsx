@@ -768,7 +768,7 @@ function Calculator() {
                                 disabled
                                 id="couponEffectiveRateOutput"
                                 name="couponEffectiveRateOuput"
-                                label="Tasa del cupon"
+                                label="Tasa del cupon %"
                                 value={outputData.couponEfectiveRate}
                             />
                         </Grid>

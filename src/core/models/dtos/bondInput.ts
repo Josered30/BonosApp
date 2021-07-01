@@ -4,7 +4,7 @@ import { PaymentMethod } from "../enums/paymentMethod";
 import { Rate } from "../enums/rate";
 
 
-export interface BondCalculatorInput {
+export interface BondInput {
   id: number;
   nominalValue: number;
   commercialValue: number;

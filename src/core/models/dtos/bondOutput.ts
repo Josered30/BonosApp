@@ -1,6 +1,7 @@
-import { BondCalculatorInfo } from "./bondInfo";
+import { BondInfo } from "./bondInfo";
 
-export interface BondCalculatorOutput {
+
+export interface BondOutput {
   id: number;
   couponFrequency: number;
   capitalization: number;
@@ -12,7 +13,7 @@ export interface BondCalculatorOutput {
   initialEmmiterCosts: number;
   initialHolderCosts: number;
   currentPrice: number;
-  calculatorInfo: BondCalculatorInfo[];
+  bondInfo: BondInfo[];
   accumulatedBond?: number;
   irr?: number;
   modifiedDuration?: number;

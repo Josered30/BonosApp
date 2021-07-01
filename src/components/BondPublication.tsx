@@ -121,7 +121,7 @@ function BondPublicationPage(props: any) {
 
     const { authState } = useAuth();
     const { bondPublicationId }: any = useParams();
-    
+
     const toRate = (rate: Rate | undefined) => rate ? Rate[rate] : "";
     const toFrequency = (frequency: Frequency | undefined) => frequency ? Frequency[frequency] : "";
     const toState = (state: BondState | undefined) => state ? BondState[state] : "";
@@ -615,7 +615,7 @@ function BondPublicationPage(props: any) {
                                 disabled
                                 id="couponEffectiveRateOutput"
                                 name="couponEffectiveRateOuput"
-                                label="Tasa del cupon"
+                                label="Tasa del cupon %"
                                 value={data.bondPublication?.bond.bondOutput.couponEfectiveRate}
                             />
                         </Grid>
@@ -645,13 +645,13 @@ function BondPublicationPage(props: any) {
                 </div>
 
 
-                {data.bondPublication?.bond.bondInfo && data.bondPublication.bond.bondInfo.length > 0 ?
+                {data.bondPublication?.bond.bondOutput.bond && data.bondPublication.bond.bondOutput.bondInfo.length > 0 ?
                     <Fragment>
                         <Divider />
                         <div className={classes.tableFill}>
                             <VirtualizedTable
-                                rowCount={data.bondPublication?.bond.bondInfo.length || 0}
-                                rowGetter={({ index }) => data.bondPublication?.bond.bondInfo[index]}
+                                rowCount={data.bondPublication?.bond.bondOutput.bondInfo.length || 0}
+                                rowGetter={({ index }) => data.bondPublication?.bond.bondOutput.bondInfo[index]}
                                 columns={columnNames}
                             />
                         </div>

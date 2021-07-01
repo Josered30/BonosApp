@@ -1,10 +1,8 @@
-import { BondCalculatorInfo } from "../bondCalculatorInfo";
-import { BondCalculatorInput } from "../bondCalculatorInput";
-import { BondCalculatorOutput } from "../bondCalculatorOutput";
+import { BondInput } from "./bondInput";
+import { BondOutput } from "./bondOutput";
 
 export interface Bond {
     id: number;
-    bondInput: BondCalculatorInput;
-    bondOutput: BondCalculatorOutput;
-    bondInfo: BondCalculatorInfo[];
+    bondInput: BondInput;
+    bondOutput: BondOutput;
 }

@@ -1,6 +1,4 @@
-
-
-export interface BondCalculatorInfo {
+export interface BondInfo {
   id: number;
   index: number;
   date?: string;
