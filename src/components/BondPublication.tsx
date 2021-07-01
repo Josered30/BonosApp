@@ -627,7 +627,7 @@ function BondPublicationPage(props: any) {
                                 id="irr"
                                 name="irr"
                                 label="TIR"
-                                value={data.bondPublication?.bond.bondOutput.tir}
+                                value={data.bondPublication?.bond.bondOutput.irr}
                             />
                         </Grid>
 
@@ -645,7 +645,7 @@ function BondPublicationPage(props: any) {
                 </div>
 
 
-                {data.bondPublication?.bond.bondOutput.bond && data.bondPublication.bond.bondOutput.bondInfo.length > 0 ?
+                {data.bondPublication?.bond.bondOutput.bondInfo && data.bondPublication.bond.bondOutput.bondInfo.length > 0 ?
                     <Fragment>
                         <Divider />
                         <div className={classes.tableFill}>
