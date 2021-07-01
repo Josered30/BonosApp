@@ -80,6 +80,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function validateNaturalPersonForm(name: any, value: any, currentValues: any): any {
+    const nanRegex: RegExp = /\D+/gm;
+    const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     let temp: any = {};
 
     switch (name) {
@@ -95,25 +97,59 @@ function validateNaturalPersonForm(name: any, value: any, currentValues: any): a
             break;
         case "dni":
             if (!value) {
-                temp.required = "Datos requeridos";
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value) || value.length > 8) {
+                    temp.format = "DNI invalido";
+                }
             }
             break;
         case "email":
             if (!value) {
                 temp.required = "Datos requeridos";
+            } else {
+                if (!emailRegex.test(value)) {
+                    temp.format = "Correo invalido";
+                }
             }
             break;
 
         default:
             break;
     }
-
-
     if (Object.keys(temp).length > 0) {
         return temp;
     }
     return null;
+}
 
+
+function validateLegalPersonForm(name: any, value: any, currentValues: any): any {
+    const emailRegex: RegExp = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    let temp: any = {};
+
+    switch (name) {
+        case "bussinessName":
+            if (!value) {
+                temp.required = "Datos requeridos";
+            }
+            break;
+        case "email":
+            if (!value) {
+                temp.required = "Datos requeridos";
+            } else {
+                if (!emailRegex.test(value)) {
+                    temp.format = "Correo invalido";
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    if (Object.keys(temp).length > 0) {
+        return temp;
+    }
+    return null;
 }
 
 
@@ -122,7 +158,7 @@ function NaturalPersonConfig(props: any) {
     const [disable, setDisable] = useState(true);
 
 
-    const { values, errors, handleChange, setValues, showErrors } = useForms({
+    const { values, errors, handleChange, showErrors } = useForms({
         initialValues: {
             name: "",
             lastName: "",
@@ -135,16 +171,6 @@ function NaturalPersonConfig(props: any) {
     const saveChanges = (event: any) => {
         setDisable(true);
     }
-
-    useEffect(() => {
-        setValues({
-            name: "oijoij",
-            lastName: "iojoijio",
-            dni: "oijoij",
-            email: "iojio"
-        });
-    }, []);
-
 
     return (
         <div className={classes.configContent}>
@@ -215,23 +241,57 @@ function NaturalPersonConfig(props: any) {
 
 
 function LegalPersonConfig(props: any) {
+
+
     const classes = useStyles();
+    const [disable, setDisable] = useState(true);
+
+
+    const { values, errors, handleChange, showErrors } = useForms({
+        initialValues: {
+            bussinessName: "",
+            email: ""
+        },
+        validationFunction: validateLegalPersonForm
+    });
+
+    const saveChanges = (event: any) => {
+        setDisable(true);
+    }
+
     return (
         <div className={classes.configContent}>
             <div className={classes.content}>
                 <ImageUploader className={classes.imageContent} radious="50%" defaultImage="/images/profile.svg" />
                 <TextField
+                    disabled={disable}
+                    className={classes.col2}
                     id="bussinessName"
                     name="bussinessName"
                     label="Razon social"
+                    value={values.bussinessName}
+                    onChange={handleChange}
+                    error={!!errors.bussinessName}
+                    helperText={showErrors("bussinessName")}
                     autoComplete="off"
                 />
                 <TextField
+                    disabled={disable}
+                    className={classes.col2}
                     id="email"
                     name="email"
                     label="Correo"
+                    value={values.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={showErrors("email")}
                     autoComplete="off"
                 />
+            </div>
+
+            <div className={classes.buttoms}>
+                <Button className={classes.items} variant="contained" color="primary" onClick={saveChanges} >Guardar</Button>
+                <Button className={classes.items} variant="contained" color="primary" onClick={() => setDisable(false)}>Editar</Button>
             </div>
         </div>
     );
@@ -248,9 +308,9 @@ function Configuration(props: any) {
 
     let content = null;
     if (authState.role === Role.Bussinness || authState.role === Role.Institution) {
-        content = <NaturalPersonConfig />;
-    } else {
         content = <LegalPersonConfig />;
+    } else {
+        content = <NaturalPersonConfig />;
     }
 
     return (

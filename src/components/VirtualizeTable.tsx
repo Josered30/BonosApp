@@ -1,7 +1,7 @@
 import { createStyles, TableCell, Theme, WithStyles, withStyles } from "@material-ui/core";
 import clsx from "clsx";
 import React from "react";
-import { AutoSizer, Column, TableCellRenderer, TableHeaderProps, Table } from "react-virtualized";
+import { AutoSizer, Column, TableCellRenderer, TableHeaderProps, Table, RowMouseEventHandlerParams } from "react-virtualized";
 import { ColumnData, Row } from "../core/models/virtualizeTableModel";
 
 const styles = (theme: Theme) =>
@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
         },
         tableRowHover: {
             '&:hover': {
-                backgroundColor: theme.palette.grey[200],
+                backgroundColor: "rgba(128,128,128,0.8)",
             },
         },
         tableCell: {
@@ -45,7 +45,7 @@ const styles = (theme: Theme) =>
 export interface MuiVirtualizedTableProps extends WithStyles<typeof styles> {
     columns: ColumnData[];
     headerHeight?: number;
-    onRowClick?: () => void;
+    onRowClick?: (info: RowMouseEventHandlerParams) => void;
     rowCount: number;
     rowGetter: (row: Row) => any;
     rowHeight?: number;
@@ -116,6 +116,7 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
                         className={classes.table}
                         {...tableProps}
                         rowClassName={this.getRowClassName}
+   
                     >
                         {columns.map(({ dataKey, ...other }, index) => {
 

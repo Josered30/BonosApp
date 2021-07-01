@@ -1,10 +1,12 @@
 import { makeStyles, Paper, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { Fragment, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { RowMouseEventHandlerParams } from "react-virtualized";
 import { useAuth } from "../core/contexts/AuthContext";
-import { BondSummary } from "../core/models/bondSummary";
+import { BondSummary } from "../core/models/dtos/bondSummary";
 import { Role } from "../core/models/enums/role";
 import { ColumnData } from "../core/models/virtualizeTableModel";
-import testData from "../core/utils/testData";
+import { buyData } from "../core/utils/testData";
 import VirtualizedTable from "./VirtualizeTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,31 +32,75 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const boughtBondsHeader: ColumnData[] = [
+
+const boughtBondsHeader : ColumnData[] = [
     {
-        width: 400,
-        dataKey: "title",
-        label: "Titulo"
+        width: 300,
+        label: "Nombre",
+        dataKey: "name"
     },
     {
-        width: 400,
-        dataKey: "emmiterName",
-        label: "Emisor"
+        width: 300,
+        label: "Emisor",
+        dataKey: "issuer",
     },
     {
-        width: 500,
-        dataKey: "nextPaymentDate",
-        label: "Proximo pago"
+        width: 300,
+        label: "Valor nominal",
+        dataKey: "nominalValue",
     },
     {
-        width: 500,
+        width: 200,
+        label: "TIR",
+        dataKey: "tir",
+    },
+    {
+        width: 200,
+        label: "Duracion modificada",
+        dataKey: "modifiedDuration",
+    },
+    {
+        width: 200,
+        label: "Ultimo pago",
         dataKey: "lastPaymentDate",
-        label: "Ultimo pago"
     },
     {
-        width: 500,
-        dataKey: "buySellDate",
-        label: "Fecha de adquisicion"
+        width: 200,
+        label: "Siguiente pago",
+        dataKey: "nextPaymentDate",
+    },
+];
+
+const selledBondsHeader : ColumnData[] = [
+    {
+        width: 300,
+        label: "Nombre",
+        dataKey: "name"
+    },
+    {
+        width: 300,
+        label: "Valor nominal",
+        dataKey: "nominalValue",
+    },
+    {
+        width: 200,
+        label: "TIR",
+        dataKey: "tir",
+    },
+    {
+        width: 200,
+        label: "Duracion modificada",
+        dataKey: "modifiedDuration",
+    },
+    {
+        width: 200,
+        label: "Fecha de emision",
+        dataKey: "emmitionDate",
+    },
+    {
+        width: 200,
+        label: "Fecha de venta",
+        dataKey: "saleDate",
     },
 ];
 
@@ -64,19 +110,15 @@ interface TablesData {
     sellTableData: BondSummary[]
 }
 
-
-async function getBuyTableData(setTablesData: any): Promise<void> {
-    setTablesData((state: TablesData) => ({
-        ...state,
-        buyTableData: testData
-    }));
-}
-
-
 function DataTable({ title, data, headers, ...rest }: any) {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down("xs"));
     const classes = useStyles();
+
+    const history = useHistory();
+    const toBondPublication = (info: RowMouseEventHandlerParams) => {
+        history.push(`/bondPublication/${info.rowData.id}`);
+    };
 
 
     if (!matches) {
@@ -92,7 +134,8 @@ function DataTable({ title, data, headers, ...rest }: any) {
                         rowCount={data.length}
                         rowGetter={({ index }) => data[index]}
                         columns={headers}
-                        headerHeight={40}
+                        headerHeight={50}
+                        onRowClick={toBondPublication}
                     />
                 </Paper>
             </div>
@@ -112,7 +155,10 @@ function Home() {
     } as TablesData);
 
     useEffect(() => {
-        getBuyTableData(setTablesData);
+        setTablesData((data: TablesData) => ({
+            ...data,
+            buyTableData: buyData
+        }));
     }, []);
 
     const { authState } = useAuth();
@@ -120,7 +166,6 @@ function Home() {
     const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
     //const { spinnerDispatcher } = useSpinner();
-
     return (
         <Fragment>
             <div className={classes.title}>
@@ -132,7 +177,7 @@ function Home() {
             <DataTable title="Bonos Adquiridos" data={tablesData.buyTableData} headers={boughtBondsHeader} />
 
             {(authState.role === Role.Bussinness || authState.role === Role.Institution) ?
-                <DataTable title="Bonos Vendidos" data={tablesData.buyTableData} headers={boughtBondsHeader} /> : null
+                <DataTable title="Bonos Emitidos" data={tablesData.buyTableData} headers={selledBondsHeader} /> : null
             }
         </Fragment>
     );

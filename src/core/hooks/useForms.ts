@@ -15,6 +15,7 @@ export default function useForm<G>({
   const handleChange = (event: any) => {
     const value = event.target.value;
     const name = event.target.name;
+    
 
     if (validationFunction) {
       const newErrors = validationFunction(name, value, values);

@@ -1,4 +1,4 @@
-import { BondState } from "../enums/BondState";
+import { BondState } from "../enums/bondState";
 import { Bond } from "./bond";
 
 export interface BondPublication {
@@ -12,4 +12,5 @@ export interface BondPublication {
     lastPaymentDate?: Date;
     nextPaymentDate?: Date;
     name: string;
+    saleDate: Date;
 }

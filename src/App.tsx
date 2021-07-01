@@ -14,8 +14,9 @@ import LogoutGuard from './core/guards/LogoutGuard';
 const Home = lazy(() => import("./components/Home"));
 const Calculator = lazy(() => import("./components/Calculator"));
 const BuySell = lazy(() => import("./components/BuySell"));
-const Configuration = lazy(() => import('./components/Configuration'));
-const BondPublication = lazy(() => import('./components/BondPublish'));
+const Profile = lazy(() => import('./components/Profile'));
+const BondPublication = lazy(() => import('./components/BondPublication'));
+const BondEmisssion = lazy(() => import('./components/BondEmission'));
 
 function App() {
 
@@ -43,8 +44,8 @@ function App() {
             <AppLayout component={BuySell}></AppLayout>
           </LoginGuard>
 
-          <LoginGuard path="/configuration">
-            <AppLayout component={Configuration}></AppLayout>
+          <LoginGuard path="/profile">
+            <AppLayout component={Profile}></AppLayout>
           </LoginGuard>
 
 
@@ -52,6 +53,9 @@ function App() {
             <AppLayout component={BondPublication}></AppLayout>
           </LoginGuard>
 
+          <LoginGuard path={'/bondEmission'}>
+            <AppLayout component={BondEmisssion}></AppLayout>
+          </LoginGuard>
 
         </Switch>
         <SpinnerDisplay />

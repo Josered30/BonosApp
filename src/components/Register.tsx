@@ -50,7 +50,7 @@ function registerNaturalPersonValidation(name: any, value: any, currentValues: a
             if (!value) {
                 temp.required = "Este campo es requerido";
             } else {
-                if (nanRegex.test(value)) {
+                if (nanRegex.test(value) || value.length > 8)  {
                     temp.format = "DNI invalido";
                 }
             }
@@ -119,7 +119,7 @@ function registerLegalPersonValidation(name: any, value: any, currentValues: any
             if (!value && currentValues.Entity === Entity.Empresa) {
                 temp.required = "Este campo es requerido";
             } else {
-                if (nanRegex.test(value)) {
+                if (nanRegex.test(value) || value.length > 11) {
                     temp.format = "RUC no valida";
                 }
             }

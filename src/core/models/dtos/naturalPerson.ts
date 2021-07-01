@@ -4,5 +4,4 @@ export interface NaturalPerson {
     lastName: string;
     dni: string;
     email: string;
-    password: string;
 }

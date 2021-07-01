@@ -6,6 +6,5 @@ export interface LegalPerson {
   registerYear: number;
   entityType: Entity;
   email: string;
-  password: string;
   ruc: string;
 }

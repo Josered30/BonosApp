@@ -1,118 +1,16 @@
-import { BondSummary } from "../models/bondSummary";
+import { BondSummary } from "../models/dtos/bondSummary";
 
-const testData: BondSummary[] = [
+export const buyData: BondSummary[] = [
   {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
     id: 0,
+    name: "test",
+    issuer: "test",
+    nominalValue: 2000,
+    tir: 0.234,
+    modifiedDuration: 0.33323,
+    emmitionDate: "23/32/1320",
+    saleDate: "23/32/1320",
+    lastPaymentDate: "23/32/1320",
+    nextPaymentDate: "23/32/1320",
   },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-  {
-    lastPaymentDate: new Date().toLocaleDateString(),
-    nextPaymentDate: new Date().toLocaleDateString(),
-    saleDate: new Date().toLocaleDateString(),
-    emmiterName: "Test",
-    title: "Test",
-    id: 0,
-  },
-
-
 ];
-
-export default testData;

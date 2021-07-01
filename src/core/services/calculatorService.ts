@@ -6,6 +6,7 @@ import { Frequency } from "../models/enums/frequency";
 import { GracePeriod } from "../models/enums/gracePeriod";
 import { PaymentMethod } from "../models/enums/paymentMethod";
 import { Rate } from "../models/enums/rate";
+import { frequencyToDay } from "../utils/enumUtils";
 
 export function calculateData(data: BondCalculatorInput): BondCalculatorOutput {
   let output = {} as BondCalculatorOutput;
@@ -76,27 +77,6 @@ function addDays(date: Date, days: number): Date {
   const copy = new Date(Number(date));
   copy.setDate(date.getDate() + days);
   return copy;
-}
-
-function frequencyToDay(frequency: Frequency): number {
-  switch (frequency) {
-    case Frequency.Diaria:
-      return 1;
-    case Frequency.Mensual:
-      return 30;
-    case Frequency.Bimestral:
-      return 60;
-    case Frequency.Trimestral:
-      return 90;
-    case Frequency.Cuatrimestral:
-      return 120;
-    case Frequency.Semestral:
-      return 180;
-    case Frequency.Anual:
-      return 360;
-    default:
-      return 1;
-  }
 }
 
 function germanMethod(

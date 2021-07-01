@@ -13,7 +13,7 @@ import { PaymentMethod } from "../core/models/enums/paymentMethod";
 import { Rate } from "../core/models/enums/rate";
 import { ColumnData } from "../core/models/virtualizeTableModel";
 import { calculateData } from "../core/services/calculatorService";
-import { EnumData, getEnumData } from "../core/utils/enumUtils";
+import { EnumData, frequencyToDay, getEnumData } from "../core/utils/enumUtils";
 import VirtualizedTable from "./VirtualizeTable";
 
 
@@ -108,7 +108,7 @@ const columnNames: ColumnData[] = [
     },
     {
         width: 200,
-        label: "Flujo emisor con escudo",
+        label: "Flujo con escudo",
         dataKey: "emmiterShieldFlow"
     },
     {
@@ -119,11 +119,12 @@ const columnNames: ColumnData[] = [
 ];
 
 
-/*function calculatorInputValidation(name: any, value: any, currentValues: any): any {
+function calculatorInputValidation(name: any, value: any, currentValues: any): any {
     let temp = {} as any;
-    const nanRegex: RegExp = /\D+\./gm;
+    const nanRegex: RegExp = /[^0-9.]/gm;
     switch (name) {
         case "nominalValue":
+            console.log(value);
             if (nanRegex.test(value)) {
                 temp.number = "Debe de ingresar un numero";
             }
@@ -190,7 +191,7 @@ const columnNames: ColumnData[] = [
         return temp;
     }
     return null;
-}*/
+}
 
 
 
@@ -221,24 +222,24 @@ function Calculator() {
         initialValues: {
             emmitionDate: new Date(),
             paymentMethod: PaymentMethod.Aleman,
-            capitalization: Frequency.Mensual,
-            couponFrequency: Frequency.Mensual,
+            capitalization: Frequency.Diaria,
+            couponFrequency: Frequency.Anual,
             gracePeriod: GracePeriod.Sin,
-            daysPerYear: 360,
-            nominalValue: 0,
-            commercialValue: 0,
-            years: 0,
-            interestRate: 0,
-            annualDiscountRate: 0,
-            incomeTax: 0,
-            prima: 0,
-            flotacion: 0,
-            cavali: 0,
-            colocacion: 0,
-            estructuracion: 0,
+            daysPerYear: '',
+            nominalValue: '',
+            commercialValue: '',
+            years: '',
+            interestRate: '',
+            annualDiscountRate: '',
+            incomeTax: '',
+            prima: '',
+            flotacion: '',
+            cavali: '',
+            colocacion: '',
+            estructuracion: '',
             interestRateType: Rate.Efectiva
         },
-        //validationFunction: calculatorInputValidation
+        validationFunction: calculatorInputValidation
     });
 
     const handleEmmitionDate = (newDate: any) => {
@@ -255,7 +256,7 @@ function Calculator() {
     const [outputExpanded, setOutputExpanded] = useState(false);
 
     const [outputData, setOutputData] = useState({
-        couponFrequency: Frequency.Anual,
+        couponFrequency: frequencyToDay(Frequency.Anual),
         capitalization: 0,
         periodsPerYear: 0,
         totalPeriods: 0,
@@ -367,7 +368,7 @@ function Calculator() {
                                 error={!!errors.nominalValue}
                                 helperText={showErrors("nominalValue")}
                                 autoComplete="off"
-                                type="number"
+                               
                             />
                         </Grid>
 
@@ -383,7 +384,6 @@ function Calculator() {
                                 error={!!errors.commercialValue}
                                 helperText={showErrors("commercialValue")}
                                 autoComplete="off"
-                                type="number"
                             />
                         </Grid>
 
@@ -482,7 +482,7 @@ function Calculator() {
                                 error={!!errors.interestRate}
                                 helperText={showErrors("interestRate")}
                                 autoComplete="off"
-                                type="number"
+                            
                             />
                         </Grid>
 
@@ -498,7 +498,7 @@ function Calculator() {
                                 error={!!errors.annualDiscountRate}
                                 helperText={showErrors("annualDiscountRate")}
                                 autoComplete="off"
-                                type="number"
+                         
                             />
                         </Grid>
 
@@ -514,7 +514,7 @@ function Calculator() {
                                 error={!!errors.incomeTax}
                                 helperText={showErrors("incomeTax")}
                                 autoComplete="off"
-                                type="number"
+                             
                             />
                         </Grid>
 
@@ -551,7 +551,7 @@ function Calculator() {
                                 error={!!errors.prima}
                                 helperText={showErrors("prima")}
                                 autoComplete="off"
-                                type="number"
+                               
                             />
                         </Grid>
 
@@ -567,7 +567,7 @@ function Calculator() {
                                 error={!!errors.flotacion}
                                 helperText={showErrors("flotacion")}
                                 autoComplete="off"
-                                type="number"
+                               
                             />
                         </Grid>
 
@@ -583,7 +583,7 @@ function Calculator() {
                                 error={!!errors.cavali}
                                 helperText={showErrors("cavali")}
                                 autoComplete="off"
-                                type="number"
+                                
                             />
                         </Grid>
 
@@ -599,7 +599,7 @@ function Calculator() {
                                 error={!!errors.years}
                                 helperText={showErrors("years")}
                                 autoComplete="off"
-                                type="number"
+                               
                             />
                         </Grid>
 
@@ -615,7 +615,7 @@ function Calculator() {
                                 error={!!errors.colocacion}
                                 helperText={showErrors("colocacion")}
                                 autoComplete="off"
-                                type="number"
+                                
                             />
                         </Grid>
 
@@ -631,7 +631,7 @@ function Calculator() {
                                 error={!!errors.estructuracion}
                                 helperText={showErrors("Estructuracion")}
                                 autoComplete="off"
-                                type="number"
+                                
 
                             />
                         </Grid>
@@ -783,7 +783,7 @@ function Calculator() {
                     rowCount={outputData.calculatorInfo.length}
                     rowGetter={({ index }) => outputData.calculatorInfo[index]}
                     columns={columnNames}
-                    headerHeight={100}
+                    headerHeight={60}
                 />
             </Paper>
 

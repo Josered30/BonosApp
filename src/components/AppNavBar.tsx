@@ -22,7 +22,7 @@ const headersData = [
     },
     {
         label: "Perfil",
-        href: "/configuration",
+        href: "/profile",
     },
 ];
 
