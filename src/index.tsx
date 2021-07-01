@@ -10,7 +10,7 @@ import '@fontsource/roboto';
 import { AuthProvider } from './core/contexts/AuthContext';
 
 ReactDOM.render(
-  <React.StrictMode>
+ 
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
@@ -20,8 +20,7 @@ ReactDOM.render(
         </AuthProvider>
 
       </BrowserRouter>
-    </ThemeProvider>
-  </React.StrictMode>,
+    </ThemeProvider>,
   document.getElementById('root')
 );
 

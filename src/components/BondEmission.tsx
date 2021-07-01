@@ -393,12 +393,12 @@ function BondEmmision(props: any) {
                         </Grid>
 
                         <Grid item xs={12} md={4}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+
                                 <KeyboardDatePicker
                                     disableToolbar
                                     fullWidth
                                     variant="inline"
-                                    format="dd/MM/yyyy"
+                                    format="DD/MM/YYYY"
                                     margin="normal"
                                     id="emmitionDate"
                                     name="emmitionDate"
@@ -410,7 +410,6 @@ function BondEmmision(props: any) {
                                         'aria-label': 'change date',
                                     }}
                                 />
-                            </MuiPickersUtilsProvider>
                         </Grid>
 
                         <Grid item xs={12} md={4}>

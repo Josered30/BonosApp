@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const boughtBondsHeader : ColumnData[] = [
+const boughtBondsHeader: ColumnData[] = [
     {
         width: 300,
         label: "Nombre",
@@ -71,7 +71,7 @@ const boughtBondsHeader : ColumnData[] = [
     },
 ];
 
-const selledBondsHeader : ColumnData[] = [
+const selledBondsHeader: ColumnData[] = [
     {
         width: 300,
         label: "Nombre",
@@ -179,6 +179,8 @@ function Home() {
             {(authState.role === Role.Bussinness || authState.role === Role.Institution) ?
                 <DataTable title="Bonos Emitidos" data={tablesData.buyTableData} headers={selledBondsHeader} /> : null
             }
+
+            
         </Fragment>
     );
 }

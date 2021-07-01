@@ -10,6 +10,8 @@ import LoginGuard from './core/guards/LoginGuard';
 import AppLayout from './layouts/AppLayout';
 import LoginLayout from './layouts/LoginLayout';
 import LogoutGuard from './core/guards/LogoutGuard';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 const Home = lazy(() => import("./components/Home"));
 const Calculator = lazy(() => import("./components/Calculator"));
@@ -22,44 +24,47 @@ function App() {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <SpinnerProvider>
-        <Switch>
-          <Route exact path="/">
-            <Redirect to="/home"></Redirect>
-          </Route>
 
-          <LogoutGuard path="/login">
-            <LoginLayout component={InitialForm} />
-          </LogoutGuard>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <SpinnerProvider>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/home"></Redirect>
+            </Route>
 
-          <LoginGuard path="/home">
-            <AppLayout component={Home}></AppLayout>
-          </LoginGuard>
+            <LogoutGuard path="/login">
+              <LoginLayout component={InitialForm} />
+            </LogoutGuard>
 
-          <LoginGuard path="/calculator">
-            <AppLayout component={Calculator}></AppLayout>
-          </LoginGuard>
+            <LoginGuard path="/home">
+              <AppLayout component={Home}></AppLayout>
+            </LoginGuard>
 
-          <LoginGuard path="/buysell">
-            <AppLayout component={BuySell}></AppLayout>
-          </LoginGuard>
+            <LoginGuard path="/calculator">
+              <AppLayout component={Calculator}></AppLayout>
+            </LoginGuard>
 
-          <LoginGuard path="/profile">
-            <AppLayout component={Profile}></AppLayout>
-          </LoginGuard>
+            <LoginGuard path="/buysell">
+              <AppLayout component={BuySell}></AppLayout>
+            </LoginGuard>
+
+            <LoginGuard path="/profile">
+              <AppLayout component={Profile}></AppLayout>
+            </LoginGuard>
 
 
-          <LoginGuard path={'/bondPublication/:bondPublicationId'}>
-            <AppLayout component={BondPublication}></AppLayout>
-          </LoginGuard>
+            <LoginGuard path={'/bondPublication/:bondPublicationId'}>
+              <AppLayout component={BondPublication}></AppLayout>
+            </LoginGuard>
 
-          <LoginGuard path={'/bondEmission'}>
-            <AppLayout component={BondEmisssion}></AppLayout>
-          </LoginGuard>
+            <LoginGuard path={'/bondEmission'}>
+              <AppLayout component={BondEmisssion}></AppLayout>
+            </LoginGuard>
 
-        </Switch>
-        <SpinnerDisplay />
-      </SpinnerProvider>
+          </Switch>
+          <SpinnerDisplay />
+        </SpinnerProvider>
+      </MuiPickersUtilsProvider>
     </Suspense>
 
   );

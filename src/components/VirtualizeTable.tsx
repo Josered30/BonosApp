@@ -119,7 +119,6 @@ class MuiVirtualizedTable extends React.PureComponent<MuiVirtualizedTableProps> 
    
                     >
                         {columns.map(({ dataKey, ...other }, index) => {
-
                             return (
                                 <Column
                                     key={dataKey}

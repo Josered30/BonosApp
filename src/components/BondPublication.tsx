@@ -1,7 +1,6 @@
 import { Paper, Typography, makeStyles, useTheme, useMediaQuery, Divider, Grid, TextField, Button } from "@material-ui/core";
-import { useMemo } from "react";
 import { Fragment, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../core/contexts/AuthContext";
 import { useSpinner } from "../core/contexts/SpinnerContext";
 import { BondPublication } from "../core/models/dtos/bondPublication";
@@ -113,8 +112,9 @@ const columnNames: ColumnData[] = [
 
 
 function BondPublicationPage(props: any) {
-    const [data, setData] = useState({} as Data);
+    const [data, setData] = useState<Data>({});
     const { spinnerDispatcher } = useSpinner();
+
     const classes = useStyles();
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('xs'));
@@ -646,16 +646,14 @@ function BondPublicationPage(props: any) {
 
 
                 {data.bondPublication?.bond.bondOutput.bondInfo && data.bondPublication.bond.bondOutput.bondInfo.length > 0 ?
-                    <Fragment>
-                        <Divider />
-                        <div className={classes.tableFill}>
-                            <VirtualizedTable
-                                rowCount={data.bondPublication?.bond.bondOutput.bondInfo.length || 0}
-                                rowGetter={({ index }) => data.bondPublication?.bond.bondOutput.bondInfo[index]}
-                                columns={columnNames}
-                            />
-                        </div>
-                    </Fragment> : null
+                    <div className={classes.tableFill}>
+                        <VirtualizedTable
+                            rowCount={data.bondPublication?.bond.bondOutput.bondInfo.length || 0}
+                            rowGetter={({ index }) => data.bondPublication?.bond.bondOutput.bondInfo[index]}
+                            columns={columnNames}
+                        />
+                    </div>
+                    : null
                 }
             </Paper>
 

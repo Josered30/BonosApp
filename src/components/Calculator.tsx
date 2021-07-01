@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { ExpandMoreRounded } from "@material-ui/icons";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { KeyboardDatePicker} from "@material-ui/pickers";
 import clsx from "clsx";
 import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import useForm from "../core/hooks/useForms";
@@ -519,12 +519,11 @@ function Calculator() {
                         </Grid>
 
                         <Grid item xs={12} md={4}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <KeyboardDatePicker
                                     disableToolbar
                                     fullWidth
                                     variant="inline"
-                                    format="dd/MM/yyyy"
+                                    format="DD/MM/YYYY"
                                     margin="normal"
                                     id="emmitionDate"
                                     name="emmitionDate"
@@ -536,7 +535,6 @@ function Calculator() {
                                         'aria-label': 'change date',
                                     }}
                                 />
-                            </MuiPickersUtilsProvider>
                         </Grid>
 
                         <Grid item xs={12} md={4}>
