@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 
 
 import './App.css';
-import InitialForm from './components/InitialForm';
+
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { SpinnerProvider } from './core/contexts/SpinnerContext';
 import { SpinnerDisplay, Spinner } from './components/Spinner';
@@ -19,6 +19,7 @@ const BuySell = lazy(() => import("./components/BuySell"));
 const Profile = lazy(() => import('./components/Profile'));
 const BondPublication = lazy(() => import('./components/BondPublication'));
 const BondEmisssion = lazy(() => import('./components/BondEmission'));
+const InitialForm = lazy(()=> import('./components/InitialForm'));
 
 function App() {
 
@@ -52,13 +53,8 @@ function App() {
               <AppLayout component={Profile}></AppLayout>
             </LoginGuard>
 
-
             <LoginGuard path={'/bondPublication/:bondPublicationId'}>
               <AppLayout component={BondPublication}></AppLayout>
-            </LoginGuard>
-
-            <LoginGuard path={'/bondEmission'}>
-              <AppLayout component={BondEmisssion}></AppLayout>
             </LoginGuard>
 
           </Switch>

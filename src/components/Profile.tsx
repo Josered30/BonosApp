@@ -255,12 +255,18 @@ function LegalPersonConfig(props: any) {
     const saveChanges = (event: any) => {
         setDisable(true);
     }
-    
-    
+
+
     return (
         <div className={classes.configContent}>
             <div className={classes.content}>
-                <ImageUploader className={classes.imageContent} radious="50%" defaultImage="/images/profile.svg" />
+                <ImageUploader
+                    className={classes.imageContent}
+                    radius="50%"
+                    width="13rem"
+                    height="13rem"
+                    defaultImage="/images/profile.svg"
+                />
                 <TextField
                     disabled={disable}
                     className={classes.col2}

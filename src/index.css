@@ -12,7 +12,6 @@ code {
     monospace;
 }
 
-
 input:-webkit-autofill{
  -webkit-box-shadow: 0 0 0 30px rgb(83, 83, 83) inset;
  -webkit-text-fill-color: white;

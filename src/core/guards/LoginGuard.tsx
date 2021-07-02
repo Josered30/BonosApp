@@ -10,7 +10,6 @@ function LoginGuard(props: any) {
     
     return (
         <Route
-            exact
             path={path}
             {...rest}
             render={({ location }) =>

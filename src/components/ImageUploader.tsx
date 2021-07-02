@@ -6,24 +6,29 @@ import { useRef } from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
     image: {
-        width: "13rem",
-        height: "13rem",
+        maxWidth: "100%",
+        maxHeight: "100%"
     },
     imgContainer: {
+        overflow: "hidden",
+        boxSizing: "border-box"
+
+    },
+    title: {
+        padding: "2rem",
+    },
+    container: {
         margin: "2rem",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-    },
-    title: {
-        padding: "2rem",
     }
 }));
 
 
 interface ImageUploaderProps {
     defaultImage: string;
-    radious: number;
+    radius: number;
     handleUpload?: (file: File) => void;
     className: string;
     width: string;
@@ -32,7 +37,7 @@ interface ImageUploaderProps {
 
 function ImageUploader(props: any) {
 
-    const { defaultImage, radious, handleUpload, className, width, height }: ImageUploaderProps = props;
+    const { defaultImage, radius, handleUpload, className, width, height }: ImageUploaderProps = props;
     const classes = useStyles();
 
     const uploadedImage = useRef<any>(null);
@@ -56,7 +61,8 @@ function ImageUploader(props: any) {
         }
     };
 
-    const containerClass = clsx(classes.imgContainer, className);
+    const containerClass = clsx(classes.container, className);
+
     return (
         <div className={containerClass}>
             <input
@@ -70,17 +76,15 @@ function ImageUploader(props: any) {
                 }}
             />
             <div
-                style={{
-                    width: width,
-                    height: height,
-                }}
-                onClick={() => imageUploader.current.click()}>        
+                onClick={() => imageUploader.current.click()}>
                 <img
+                    style={{
+                        width: width,
+                        height: height,
+                        borderRadius: radius,
+                    }}
                     className={classes.image}
                     ref={uploadedImage}
-                    style={{
-                        borderRadius: radious,
-                    }}
                     src={defaultImage}
                     alt="Imagen"
                 />

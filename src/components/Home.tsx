@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
 
     tableLabel: {
-        display: "inline-block",
         backgroundColor: theme.palette.primary.main,
         padding: "0.5rem 0.8rem",
-        borderRadius: "10px 10px 0px 0px"
+        borderRadius: "10px 10px 0px 0px",
+        width:"max-content"
     }
 }));
 

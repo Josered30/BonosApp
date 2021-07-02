@@ -1,15 +1,13 @@
 import { Button, Divider, makeStyles, Paper, Typography, useMediaQuery, useTheme } from "@material-ui/core";
-
 import { useEffect, useState } from "react";
 import { Fragment } from "react";
-import { Route, Switch, useHistory, useRouteMatch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { RowMouseEventHandlerParams } from "react-virtualized";
 import { useAuth } from "../core/contexts/AuthContext";
 import { BondSummary } from "../core/models/dtos/bondSummary";
 import { Role } from "../core/models/enums/role";
 import { ColumnData } from "../core/models/virtualizeTableModel";
 import { buyData } from "../core/utils/testData";
-import BondEmmision from "./BondEmission";
 import VirtualizedTable from "./VirtualizeTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -74,14 +72,13 @@ const columnNames: ColumnData[] = [
 
 function BuySellContent(props: any) {
     const history = useHistory();
-    const { url } = useRouteMatch();
 
     const toBondPublication = (info: RowMouseEventHandlerParams) => {
         history.push(`/bondPublication/${info.rowData.id}`);
     };
 
     const toBondEmmision = (event: any) => {
-        history.push(`${url}/emmision`);
+        history.push(`/bondEmission`);
     };
 
     const classes = useStyles();
@@ -126,20 +123,5 @@ function BuySellContent(props: any) {
 
         </Fragment >
     );
-}
 
-function BuySell(props: any) {
-    const { path } = useRouteMatch();
-    return (
-        <Switch>
-            <Route exact path={path}>
-                <BuySellContent />
-            </Route>
-            <Route path={`${path}/emmision`}>
-                <BondEmmision />
-            </Route>
-        </Switch>
-    );
 }
-
-export default BuySell;
