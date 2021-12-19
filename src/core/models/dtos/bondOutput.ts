@@ -2,7 +2,7 @@ import { BondInfo } from "./bondInfo";
 
 
 export interface BondOutput {
-  id: number;
+  id?: number;
   couponFrequency: number;
   capitalization: number;
   periodsPerYear: number;

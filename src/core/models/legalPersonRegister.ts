@@ -1,7 +1,7 @@
 import { Entity } from "./enums/entity";
 
 export interface LegalPersonRegister {
-    bussinessName: string;
+    name: string;
     registerYear: number;
     entityType: Entity;
     email: string;

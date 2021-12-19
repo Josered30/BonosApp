@@ -15,7 +15,6 @@ export default function useForm<G>({
   const handleChange = (event: any) => {
     const value = event.target.value;
     const name = event.target.name;
-    
 
     if (validationFunction) {
       const newErrors = validationFunction(name, value, values);
@@ -53,6 +52,27 @@ export default function useForm<G>({
     return temp;
   };
 
+  const valid = () => {
+    let valid = true;
+    let newErrors: any = {};
+
+    if (validationFunction) {
+      for (const key in values) {
+        const aux = validationFunction(key, values[key], values);
+        if (aux) {
+          newErrors = {
+            ...newErrors,
+            [key]: aux,
+          };
+          valid = false;
+        }
+      }
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   return {
     values,
     errors,
@@ -60,5 +80,6 @@ export default function useForm<G>({
     onBlurValidation,
     showErrors,
     setValues,
+    valid,
   };
 }

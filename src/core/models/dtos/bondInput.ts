@@ -5,7 +5,7 @@ import { Rate } from "../enums/rate";
 
 
 export interface BondInput {
-  id: number;
+  id?: number;
   nominalValue: number;
   commercialValue: number;
   years: number;

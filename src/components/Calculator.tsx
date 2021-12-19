@@ -1,7 +1,7 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { Accordion, AccordionDetails, AccordionSummary, Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, TextField, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { ExpandMoreRounded } from "@material-ui/icons";
-import { KeyboardDatePicker} from "@material-ui/pickers";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import clsx from "clsx";
 import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import useForm from "../core/hooks/useForms";
@@ -124,64 +124,111 @@ function calculatorInputValidation(name: any, value: any, currentValues: any): a
     const nanRegex: RegExp = /[^0-9.]/gm;
     switch (name) {
         case "nominalValue":
-            console.log(value);
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "commercialValue":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "daysPerYear":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "interestRate":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "annualDiscountRate":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "incomeTax":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "prima":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "flotacion":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "cavali":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "years":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "colocacion":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         case "estructuracion":
-            if (nanRegex.test(value)) {
-                temp.number = "Debe de ingresar un numero";
+            if (!value) {
+                temp.required = "Este campo es requerido";
+            } else {
+                if (nanRegex.test(value)) {
+                    temp.number = "Debe de ingresar un numero";
+                }
             }
             break;
         default:
@@ -218,14 +265,14 @@ function Calculator() {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
-    const { values, errors, handleChange, showErrors, onBlurValidation } = useForm<any>({
+    const { values, errors, handleChange, showErrors, onBlurValidation, valid } = useForm<any>({
         initialValues: {
             emmitionDate: new Date(),
             paymentMethod: PaymentMethod.Aleman,
             capitalization: Frequency.Diaria,
             couponFrequency: Frequency.Anual,
             gracePeriod: GracePeriod.Sin,
-            daysPerYear: '',
+            daysPerYear: 360,
             nominalValue: '',
             commercialValue: '',
             years: '',
@@ -275,8 +322,7 @@ function Calculator() {
     const handleOuputAccordion = () => setOutputExpanded(!outputExpanded);
 
     const calculate = () => {
-        if (values.years > 0) {
-
+        if (valid()) {
             let output = calculateData({
                 emmitionDate: values.emmitionDate,
                 paymentMethod: values.paymentMethod,
@@ -287,20 +333,20 @@ function Calculator() {
                 nominalValue: parseFloat(values.nominalValue),
                 commercialValue: parseFloat(values.commercialValue),
                 years: parseInt(values.years),
-                interestRate: parseFloat(values.interestRate)/100,
-                annualDiscountRate: parseFloat(values.annualDiscountRate)/100,
-                incomeTax: parseFloat(values.incomeTax)/100,
-                prima: parseFloat(values.prima)/100,
-                flotacion: parseFloat(values.flotacion)/100,
-                cavali: parseFloat(values.cavali)/100,
-                colocacion: parseFloat(values.colocacion)/100,
-                estructuracion: parseFloat(values.estructuracion)/100,
+                interestRate: parseFloat(values.interestRate) / 100,
+                annualDiscountRate: parseFloat(values.annualDiscountRate) / 100,
+                incomeTax: parseFloat(values.incomeTax) / 100,
+                prima: parseFloat(values.prima) / 100,
+                flotacion: parseFloat(values.flotacion) / 100,
+                cavali: parseFloat(values.cavali) / 100,
+                colocacion: parseFloat(values.colocacion) / 100,
+                estructuracion: parseFloat(values.estructuracion) / 100,
                 interestRateType: values.interestRateType
             } as BondCalculatorInput);
 
-            output.couponCok = output.couponCok*100;
-            output.annualEfectiveRate = output.annualEfectiveRate*100;
-            output.couponEfectiveRate = output.couponEfectiveRate*100;
+            output.couponCok = output.couponCok * 100;
+            output.annualEfectiveRate = output.annualEfectiveRate * 100;
+            output.couponEfectiveRate = output.couponEfectiveRate * 100;
 
             setOutputData(output);
             setInputExpanded(!inputExpanded);
@@ -311,6 +357,9 @@ function Calculator() {
     useLayoutEffect(() => {
         setTableClass(clsx(classes.table, outputExpanded && classes.tableFill));
     }, [outputExpanded]);
+
+
+    console.log(errors);
 
     return (
         <Fragment>
@@ -368,7 +417,7 @@ function Calculator() {
                                 error={!!errors.nominalValue}
                                 helperText={showErrors("nominalValue")}
                                 autoComplete="off"
-                               
+
                             />
                         </Grid>
 
@@ -482,7 +531,7 @@ function Calculator() {
                                 error={!!errors.interestRate}
                                 helperText={showErrors("interestRate")}
                                 autoComplete="off"
-                            
+
                             />
                         </Grid>
 
@@ -498,7 +547,7 @@ function Calculator() {
                                 error={!!errors.annualDiscountRate}
                                 helperText={showErrors("annualDiscountRate")}
                                 autoComplete="off"
-                         
+
                             />
                         </Grid>
 
@@ -514,27 +563,27 @@ function Calculator() {
                                 error={!!errors.incomeTax}
                                 helperText={showErrors("incomeTax")}
                                 autoComplete="off"
-                             
+
                             />
                         </Grid>
 
                         <Grid item xs={12} md={4}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    fullWidth
-                                    variant="inline"
-                                    format="DD/MM/YYYY"
-                                    margin="normal"
-                                    id="emmitionDate"
-                                    name="emmitionDate"
-                                    label="Fecha de emision"
-                                    value={values.emmitionDate}
-                                    onChange={handleEmmitionDate}
-                                    maxDate={new Date()}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
+                            <KeyboardDatePicker
+                                disableToolbar
+                                fullWidth
+                                variant="inline"
+                                format="DD/MM/YYYY"
+                                margin="normal"
+                                id="emmitionDate"
+                                name="emmitionDate"
+                                label="Fecha de emision"
+                                value={values.emmitionDate}
+                                onChange={handleEmmitionDate}
+                                maxDate={new Date()}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
                         </Grid>
 
                         <Grid item xs={12} md={4}>
@@ -549,7 +598,7 @@ function Calculator() {
                                 error={!!errors.prima}
                                 helperText={showErrors("prima")}
                                 autoComplete="off"
-                               
+
                             />
                         </Grid>
 
@@ -565,7 +614,7 @@ function Calculator() {
                                 error={!!errors.flotacion}
                                 helperText={showErrors("flotacion")}
                                 autoComplete="off"
-                               
+
                             />
                         </Grid>
 
@@ -581,7 +630,7 @@ function Calculator() {
                                 error={!!errors.cavali}
                                 helperText={showErrors("cavali")}
                                 autoComplete="off"
-                                
+
                             />
                         </Grid>
 
@@ -597,7 +646,7 @@ function Calculator() {
                                 error={!!errors.years}
                                 helperText={showErrors("years")}
                                 autoComplete="off"
-                               
+
                             />
                         </Grid>
 
@@ -613,7 +662,7 @@ function Calculator() {
                                 error={!!errors.colocacion}
                                 helperText={showErrors("colocacion")}
                                 autoComplete="off"
-                                
+
                             />
                         </Grid>
 
@@ -629,7 +678,7 @@ function Calculator() {
                                 error={!!errors.estructuracion}
                                 helperText={showErrors("Estructuracion")}
                                 autoComplete="off"
-                                
+
 
                             />
                         </Grid>

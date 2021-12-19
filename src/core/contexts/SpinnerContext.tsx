@@ -1,9 +1,11 @@
 import React from "react";
-import { createContext, useReducer} from "react";
+import { createContext, useReducer } from "react";
 
+
+type Type = "loading" | "done";
 
 type Action = {
-    type: string;
+    type: Type;
     payload?: any;
 };
 

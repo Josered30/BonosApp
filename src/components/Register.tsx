@@ -1,7 +1,10 @@
-import { Button, Card, CardContent,  Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
-import  { useState } from "react";
+import { Button, Card, CardContent, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Typography } from "@material-ui/core";
+import { useState } from "react";
+import { useSnackBar } from "../core/contexts/SnackBarContext";
+import { useSpinner } from "../core/contexts/SpinnerContext";
 import useForm from "../core/hooks/useForms";
 import { Entity } from "../core/models/enums/entity";
+import { registerLegalPerson, registerNaturalPerson } from "../core/services/authService";
 import { EnumData, getEnumData } from "../core/utils/enumUtils";
 
 
@@ -50,7 +53,7 @@ function registerNaturalPersonValidation(name: any, value: any, currentValues: a
             if (!value) {
                 temp.required = "Este campo es requerido";
             } else {
-                if (nanRegex.test(value) || value.length > 8)  {
+                if (nanRegex.test(value) || value.length > 8) {
                     temp.format = "DNI invalido";
                 }
             }
@@ -87,7 +90,7 @@ function registerLegalPersonValidation(name: any, value: any, currentValues: any
     const nanRegex: RegExp = /\D+/gm;
 
     switch (name) {
-        case "bussinessName":
+        case "name":
             if (!value) {
                 temp.required = "Este campo es requerido";
             }
@@ -116,7 +119,7 @@ function registerLegalPersonValidation(name: any, value: any, currentValues: any
             }
             break;
         case "ruc":
-            if (!value && currentValues.Entity === Entity.Empresa) {
+            if (!value && currentValues.entityType === Entity.Empresa) {
                 temp.required = "Este campo es requerido";
             } else {
                 if (nanRegex.test(value) || value.length > 11) {
@@ -167,7 +170,7 @@ function RegisterOptions({ setOption }: any) {
 
 
 function RegisterNaturalPerson() {
-    const { errors, handleChange, showErrors } = useForm({
+    const { values, errors, handleChange, showErrors, valid } = useForm({
         initialValues: {
             name: "",
             lastName: "",
@@ -179,6 +182,22 @@ function RegisterNaturalPerson() {
     });
 
     const classes = useStyles();
+
+    const { spinnerDispatcher } = useSpinner();
+    const { snackbarDispatcher } = useSnackBar();
+
+    const handleSubmit = async () => {
+
+        if (valid()) {
+            spinnerDispatcher({ type: "loading" });
+            const result = await registerNaturalPerson(values);
+            spinnerDispatcher({ type: "done" });
+            if (result.error) {
+                snackbarDispatcher({ type: "error", payload: result.error });
+            }
+        }
+    };
+
 
     return (
         <div className={classes.content}>
@@ -261,7 +280,7 @@ function RegisterNaturalPerson() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button fullWidth variant="contained" color="primary">
+                    <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
                         Registrarse
                     </Button>
                 </Grid>
@@ -278,11 +297,11 @@ const entityTypes: EnumData[] = getEnumData(Entity);
 
 function RegisterLegalPerson() {
 
-    const { values, errors, handleChange, showErrors } = useForm({
+    const { values, errors, handleChange, showErrors, valid } = useForm({
         initialValues: {
-            bussinessName: "",
+            name: "",
             registerYear: 0,
-            Entity: 0,
+            entityType: 0,
             email: "",
             password: "",
             ruc: "",
@@ -290,6 +309,20 @@ function RegisterLegalPerson() {
         validationFunction: registerLegalPersonValidation
     });
     const classes = useStyles();
+
+    const { spinnerDispatcher } = useSpinner();
+    const { snackbarDispatcher } = useSnackBar();
+
+    const handleSubmit = async () => {
+        if (valid()) {
+            spinnerDispatcher({ type: "loading" });
+            const result = await registerLegalPerson(values);
+            spinnerDispatcher({ type: "done" });
+            if (result.error) {
+                snackbarDispatcher({ type: "error", payload: result.error });
+            }
+        }
+    };
 
 
     return (
@@ -307,12 +340,12 @@ function RegisterLegalPerson() {
                 <Grid item xs={12}>
                     <TextField
                         fullWidth
-                        id="bussinessName"
-                        name="bussinessName"
+                        id="name"
+                        name="name"
                         label="Razon social"
                         onChange={handleChange}
-                        error={!!errors.bussinessName}
-                        helperText={showErrors("bussinessName")}
+                        error={!!errors.name}
+                        helperText={showErrors("name")}
                         autoComplete="off"
                     />
                 </Grid>
@@ -338,8 +371,8 @@ function RegisterLegalPerson() {
                         <Select
                             labelId="entityTypeLabel"
                             id="Entity"
-                            name="Entity"
-                            value={values.Entity}
+                            name="entityType"
+                            value={values.entityType}
                             onChange={handleChange}
                         >
                             {entityTypes.map(e => {
@@ -393,7 +426,7 @@ function RegisterLegalPerson() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button fullWidth variant="contained" color="primary">
+                    <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>
                         Registrarse
                     </Button>
                 </Grid>
